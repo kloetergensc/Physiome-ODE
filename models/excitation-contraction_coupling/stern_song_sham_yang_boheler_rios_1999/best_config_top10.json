@@ -1,0 +1,1 @@
+{"domain": "excitation-contraction_coupling", "model": "stern_song_sham_yang_boheler_rios_1999", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.00010104884010251513, "channel_scores": [4.767961242012896e-05, 8.982381717177178e-05, 0.00011690618102838738, 0.0001497857497897724]}

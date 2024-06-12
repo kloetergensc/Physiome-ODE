@@ -1,0 +1,1 @@
+{"domain": "signal_transduction", "model": "reidl_borowski_sensse_starke_zapotocky_eiswirth_2006", "total_samples": 100, "T": 1, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.0015966489943508963, "channel_scores": [0.004984809682061898, 0.0002085233261483555, 0.0004222606599660756, 0.0007710023092272559]}

@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "bertram_2008_noisy", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.00021135773081291785, "channel_scores": [0.0002463868007126704, 1.938701755234292e-05, 0.0007340513236555033, 4.055741722733805e-05, 1.6406094916734725e-05]}

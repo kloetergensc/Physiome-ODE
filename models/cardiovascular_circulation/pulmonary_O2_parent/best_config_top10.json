@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "pulmonary_O2_parent", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.012931134202804617, "channel_scores": [0.02581857548004229, 4.3692925566942995e-05]}

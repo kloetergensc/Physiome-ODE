@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "gupta_aslakson_gurbaxani_vernon_2007_b", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.5, "rand_start": false, "high_score": 0.01220637829505014, "channel_scores": [0.01407933492092223, 0.011449050683174967, 0.022766660596964177, 0.0005304669791391845]}

@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "butera_rinzel_smith_1999", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.019706847291544306, "channel_scores": [0.03142848123457788, 0.023406216706350486, 0.023992173686221814, 5.175390270415857e-07]}

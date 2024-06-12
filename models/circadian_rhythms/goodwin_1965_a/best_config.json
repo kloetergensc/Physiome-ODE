@@ -1,0 +1,1 @@
+{"domain": "circadian_rhythms", "model": "goodwin_1965_a", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0023856794017772694, "channel_scores": [0.0031909869958498165, 0.001580371807704722]}

@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_heart_hypertrophy_or_deterioration_2008", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 2.549488791882521e-14, "channel_scores": [4.219431667164231e-14, 3.4289164983838194e-14, 1.182100995142136e-18]}

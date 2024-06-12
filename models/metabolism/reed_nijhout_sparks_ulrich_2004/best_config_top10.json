@@ -1,0 +1,1 @@
+{"domain": "metabolism", "model": "reed_nijhout_sparks_ulrich_2004", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0346140412346045, "channel_scores": [0.07998339394273915, 0.014235092551176078, 0.022840015082370428, 0.021397663362132332]}

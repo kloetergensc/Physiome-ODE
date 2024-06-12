@@ -1,0 +1,1 @@
+{"domain": "neurobiology", "model": "butera_rinzel_smith_1999_model2", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.016367029653238854, "channel_scores": [0.027252328888709054, 0.018954269073790306, 0.019259641508433144, 1.8791420229244163e-06]}

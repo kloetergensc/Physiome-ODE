@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "bueno_2007", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.5, "rand_start": false, "high_score": 0.00014361948505961316, "channel_scores": [0.0, 3.075735419835262e-06, 3.394446770258251e-06, 0.0005680077580483591]}

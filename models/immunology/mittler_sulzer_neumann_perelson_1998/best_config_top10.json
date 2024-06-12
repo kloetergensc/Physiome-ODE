@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "mittler_sulzer_neumann_perelson_1998", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.015316559122681081, "channel_scores": [0.006880777561564526, 0.01991743259359667, 0.007283575616508936, 0.006771193602917036, 0.02353312667150402, 0.022619938058588175, 0.020209869754088203]}

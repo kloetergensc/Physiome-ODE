@@ -1,0 +1,1 @@
+{"domain": "cell_cycle", "model": "romond_rustici_gonze_goldbeter_1999", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.5, "rand_start": false, "high_score": 0.00013629910911610593, "channel_scores": [7.667101596815694e-06, 4.377223623303634e-05, 0.0006187326277938258, 4.886013832237984e-05, 4.9656746487626684e-05, 4.910580426295117e-05]}

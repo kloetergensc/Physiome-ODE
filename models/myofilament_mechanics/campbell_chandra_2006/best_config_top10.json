@@ -1,0 +1,1 @@
+{"domain": "myofilament_mechanics", "model": "campbell_chandra_2006", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.003561699753022299, "channel_scores": [0.0045982179879681395, 0.003184635419796953, 0.0064639456043241025, 0.0]}

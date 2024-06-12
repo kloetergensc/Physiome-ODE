@@ -1,0 +1,1 @@
+{"domain": "excitation-contraction_coupling", "model": "yamaguchi_takaki_matsubara_yasuhara_suga_1996", "total_samples": 100, "T": 3.3, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.003673204260622501, "channel_scores": [0.010627934489187333, 0.004517740517992055, 0.0016955415952498783, 0.0007464327606994502, 0.0007783719399837892]}

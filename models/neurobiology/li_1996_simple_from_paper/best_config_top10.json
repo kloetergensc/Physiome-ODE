@@ -1,0 +1,1 @@
+{"domain": "neurobiology", "model": "li_1996_simple_from_paper", "total_samples": 100, "T": 10, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 0.09742610400774593, "channel_scores": [0.10445190544682938, 0.29497000698926323, 0.0359640578442343, 0.01694317378427286, 0.03480137597412989]}

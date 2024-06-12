@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "cui_kaandorp_2006", "total_samples": 100, "T": 3.3, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.0013804328968697035, "channel_scores": [0.000970813434091428, 0.0018959274708727977, 0.0017516951063756448, 0.0009032955761389439]}

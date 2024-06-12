@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "schenzle_1994", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0013025212233193858, "channel_scores": [7.488514500823132e-08, 3.8813346113957436e-20, 0.004395584345299762, 0.0011888626161235074, 0.0009280842700286514]}

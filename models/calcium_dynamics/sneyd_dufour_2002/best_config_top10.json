@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "sneyd_dufour_2002", "total_samples": 100, "T": 1, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0046171316539894355, "channel_scores": [0.004077181549447576, 0.0017946020725505567, 0.0146180287264959, 0.0025251464099509003, 7.069951150224291e-05]}

@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "potter_greller_cho_nuttall_stroup_suva_tobin_2005_a", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.00010335813874394566, "channel_scores": [8.792199473496766e-08, 0.0005165951287621727, 1.0623740404997633e-07, 1.262295885410805e-11, 1.3929358118538864e-09]}

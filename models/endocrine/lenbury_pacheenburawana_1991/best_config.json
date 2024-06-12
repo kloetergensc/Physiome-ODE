@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "lenbury_pacheenburawana_1991", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.17822273648550432, "channel_scores": [0.22353619320127321, 0.13251914264454676, 0.17861287361069295]}

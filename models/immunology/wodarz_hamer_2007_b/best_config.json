@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "wodarz_hamer_2007_b", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.012269611240018546, "channel_scores": [0.03352604784709914, 0.0010155679469610478, 0.002267217925995459]}

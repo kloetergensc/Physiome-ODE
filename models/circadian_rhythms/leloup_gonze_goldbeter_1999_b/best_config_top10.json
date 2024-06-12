@@ -1,0 +1,1 @@
+{"domain": "circadian_rhythms", "model": "leloup_gonze_goldbeter_1999_b", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0026193061189812746, "channel_scores": [0.004440836751021079, 0.001595744457254644, 0.0018213371486681]}

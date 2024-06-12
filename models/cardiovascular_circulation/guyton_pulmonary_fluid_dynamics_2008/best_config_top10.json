@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_pulmonary_fluid_dynamics_2008", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.006475286146795391, "channel_scores": [0.012047772818434674, 0.000902799475156108]}

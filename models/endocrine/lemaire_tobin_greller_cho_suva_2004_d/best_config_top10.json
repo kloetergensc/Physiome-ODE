@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "lemaire_tobin_greller_cho_suva_2004_d", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0013728905984459222, "channel_scores": [0.0007916237879007903, 0.0011533997839527342, 0.0021736482234842426]}

@@ -1,0 +1,1 @@
+{"domain": "neurobiology", "model": "purvis_smith_koizumi_butera_2007_npc", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 0.04373510648925769, "channel_scores": [0.08453026885771668, 0.04662483228909017, 5.0218320966246277e-05]}

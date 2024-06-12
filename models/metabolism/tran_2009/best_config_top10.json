@@ -1,0 +1,1 @@
+{"domain": "metabolism", "model": "tran_2009", "total_samples": 100, "T": 0.33, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": -1.0, "channel_scores": [-1.0]}

@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "haugh_2004", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.5, "rand_start": false, "high_score": 0.001298786071545624, "channel_scores": [0.0049147449745959885, 0.0001966645349761798, 3.532927003662463e-07, 8.338148390996102e-05]}

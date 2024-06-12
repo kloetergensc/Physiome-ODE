@@ -1,0 +1,1 @@
+{"domain": "cell_cycle", "model": "gardner_dolnik_collins_1998", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.005769432210642666, "channel_scores": [0.008366501258819839, 0.0034856115130760595, 0.009335347155826549, 0.00654563829377637, 0.001114062831714513]}

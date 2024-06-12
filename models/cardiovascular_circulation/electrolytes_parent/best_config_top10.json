@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "electrolytes_parent", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 5.992636770854517e-05, "channel_scores": [4.1697813215969005e-23, 1.8531179605333888e-22, 1.8830926684471288e-23, 0.00023970547083418067]}

@@ -1,0 +1,1 @@
+{"domain": "myofilament_mechanics", "model": "razumova_bukatina_campbell_2000", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.004980146465076949, "channel_scores": [0.004853386639267734, 0.005163826347724495, 0.0049232264082386176]}

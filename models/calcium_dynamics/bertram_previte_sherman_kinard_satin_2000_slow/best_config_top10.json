@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "bertram_previte_sherman_kinard_satin_2000_slow", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.00022383192424028827, "channel_scores": [0.00033048882388141956, 0.000490146028553107, 7.469219955536596e-05, 6.449712605731865e-10]}

@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "hodgkin_huxley_1952_variant01", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.04207737667214746, "channel_scores": [0.08521681087291688, 0.05725387225433766, 0.010251991464398995, 0.015586832096936306]}

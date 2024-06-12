@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_electrolytes_2008", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 5.454994260525024e-05, "channel_scores": [9.97184473415419e-22, 1.0948881564901667e-22, 0.00021819977042100095, 2.1776258014605703e-22]}

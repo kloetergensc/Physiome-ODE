@@ -1,0 +1,1 @@
+{"domain": "metabolism", "model": "chassagnole_rais_quentin_fell_mazat_2001", "total_samples": 100, "T": 0.33, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.0010380294738788934, "channel_scores": [4.3833388137468914e-05, 0.005165791558879895, 0.0, 0.0, 0.0, 0.0, 4.878232891677022e-06, 0.005165791558879895, 0.0, 0.0, 0.0, 0.0]}

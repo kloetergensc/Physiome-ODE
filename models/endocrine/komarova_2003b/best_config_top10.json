@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "komarova_2003b", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.0001849966431393041, "channel_scores": [0.00024867377722954796, 0.00016665377465029593, 0.00013966237753806844]}

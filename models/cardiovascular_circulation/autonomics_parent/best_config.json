@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "autonomics_parent", "total_samples": 100, "T": 3.3, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.005482346201999233, "channel_scores": [0.0073247612623974796, 0.003639931141600987]}

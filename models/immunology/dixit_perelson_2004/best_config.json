@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "dixit_perelson_2004", "total_samples": 100, "T": 3.3, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0023729786537332724, "channel_scores": [8.926961458652875e-10, 0.001662160538745441, 2.6840001166478375e-06, 0.0039734758674749016, 0.0062265719696332255]}

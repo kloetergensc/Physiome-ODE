@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_autonomics_2008", "total_samples": 100, "T": 3.3, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0053583451747718, "channel_scores": [0.0071183156528918465, 0.0035983746966517524]}

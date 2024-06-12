@@ -1,0 +1,1 @@
+{"domain": "cell_cycle", "model": "halloy_bernard_loussouarn_goldbeter_2002", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 0.000980382275941765, "channel_scores": [0.0010917417574030674, 0.0, 0.0015569940218460158, 0.0012727933245179769]}

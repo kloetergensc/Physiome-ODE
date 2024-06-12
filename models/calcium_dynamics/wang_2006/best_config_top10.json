@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "wang_2006", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.3, "rand_start": false, "high_score": 0.008043839572192808, "channel_scores": [0.009434668648508669, 0.0007728432107588816, 0.022732107730637118, 0.007269911207498484, 9.667063560887448e-06]}

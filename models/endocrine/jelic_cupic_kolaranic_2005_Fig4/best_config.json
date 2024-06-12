@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "jelic_cupic_kolaranic_2005_Fig4", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 2.5795539412698414, "channel_scores": [2.5454281241472665, 2.613679758392416]}

@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "gonzalezheydrich_steingard_kohane_1994", "total_samples": 100, "T": 0.33, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 8.004599763533485e-05, "channel_scores": [0.00020709972305554765, 3.3013931268992454e-05, 2.4338581464471985e-08]}

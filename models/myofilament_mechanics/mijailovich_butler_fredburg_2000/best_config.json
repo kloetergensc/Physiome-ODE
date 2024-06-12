@@ -1,0 +1,1 @@
+{"domain": "myofilament_mechanics", "model": "mijailovich_butler_fredburg_2000", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0017042799138864734, "channel_scores": [0.0019484017518459015, 0.000333457879089725, 0.0034205952013179994, 0.0011146648232922675]}

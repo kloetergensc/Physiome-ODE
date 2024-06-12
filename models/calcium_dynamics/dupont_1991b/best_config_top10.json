@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "dupont_1991b", "total_samples": 100, "T": 10, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.25385522232083974, "channel_scores": [0.34331292567515453, 0.16439751896652494]}

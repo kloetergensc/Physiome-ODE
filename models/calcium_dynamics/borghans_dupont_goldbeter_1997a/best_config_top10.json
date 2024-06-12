@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "borghans_dupont_goldbeter_1997a", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.1, "rand_start": false, "high_score": 1.7947024571846395, "channel_scores": [2.539423859358266, 0.2841600145333516, 2.5605234976623006]}

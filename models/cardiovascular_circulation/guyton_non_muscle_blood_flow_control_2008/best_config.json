@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_non_muscle_blood_flow_control_2008", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.0038922738018124623, "channel_scores": [0.011673706745438751, 3.114659986766256e-06, 1.1869548281174126e-14]}

@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "red_cells_parent", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 6.3415570716654e-13, "channel_scores": [6.3415570716654e-13]}

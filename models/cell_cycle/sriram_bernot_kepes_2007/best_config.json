@@ -1,0 +1,1 @@
+{"domain": "cell_cycle", "model": "sriram_bernot_kepes_2007", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0014890247190219499, "channel_scores": [0.0001625578360605506, 0.0012053122451357483, 0.0005510202693361896, 0.0013343046054556196, 0.004151684308350916, 0.0015292690497926754]}

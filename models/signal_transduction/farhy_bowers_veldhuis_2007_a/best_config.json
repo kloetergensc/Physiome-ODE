@@ -1,0 +1,1 @@
+{"domain": "signal_transduction", "model": "farhy_bowers_veldhuis_2007_a", "total_samples": 100, "T": 1, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.004024642414441883, "channel_scores": [0.0045374411776134965, 0.002018101270517061, 0.008938022833573755, 0.0, 0.004629646790505098]}

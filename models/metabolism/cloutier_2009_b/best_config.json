@@ -1,0 +1,1 @@
+{"domain": "metabolism", "model": "cloutier_2009_b", "total_samples": 100, "T": 0.33, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 5.320593032423131e-06, "channel_scores": [2.047306536847457e-06, 0.0, 2.5959062771866704e-05, 7.668600024399644e-06, 6.619375123202089e-07, 9.072443815278994e-07, 0.0]}

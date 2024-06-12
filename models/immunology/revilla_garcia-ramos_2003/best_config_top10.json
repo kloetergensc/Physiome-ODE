@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "revilla_garcia-ramos_2003", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.08129037334436216, "channel_scores": [0.003319372292965357, 0.04377151302876237, 0.07905540730273405, 0.09973909524872021, 0.18056647884862884]}

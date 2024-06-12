@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "miftakhov_abdusheva_christensen_1999", "total_samples": 100, "T": 0.33, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.0006657602292952473, "channel_scores": [2.9846968683822315e-10, 3.198189424076487e-06, 3.8299356651853e-07, 1.2649633805479555e-06, 0.003323954701635407]}

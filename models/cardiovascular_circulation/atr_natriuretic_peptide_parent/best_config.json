@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "atr_natriuretic_peptide_parent", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.001796592813119257, "channel_scores": [0.001796592813119257]}

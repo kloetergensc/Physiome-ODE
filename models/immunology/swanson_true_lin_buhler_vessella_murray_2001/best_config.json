@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "swanson_true_lin_buhler_vessella_murray_2001", "total_samples": 100, "T": 10, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.0004177398566341757, "channel_scores": [0.0004177398566341757]}

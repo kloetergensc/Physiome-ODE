@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "nelson_murray_perelson_2000_general", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 0.007303733616785058, "channel_scores": [0.005846499435293531, 0.008176518678434103, 0.00656487738434042, 0.008627038969072177]}

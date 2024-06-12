@@ -1,0 +1,1 @@
+{"domain": "signal_transduction", "model": "vilar_rnx_2006", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.00030562037660940815, "channel_scores": [0.00020371977550535, 0.001154527570396093, 0.0004083770922371551, 3.6783775397900528e-06, 4.8299202662861976e-05, 1.5120241315198825e-05]}

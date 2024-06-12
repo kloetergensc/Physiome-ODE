@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "guyton_pulmonary_oxygen_uptake_2008", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.013071120963889411, "channel_scores": [0.026098589493888272, 4.365243389055071e-05]}

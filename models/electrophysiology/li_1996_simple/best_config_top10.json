@@ -1,0 +1,1 @@
+{"domain": "electrophysiology", "model": "li_1996_simple", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.3, "rand_start": false, "high_score": 0.11268075127371995, "channel_scores": [0.23004528648633124, 0.05101516529791248, 0.13023304080192785, 0.1521092920827762, 9.716996519084082e-07]}

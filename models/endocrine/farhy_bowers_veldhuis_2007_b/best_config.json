@@ -1,0 +1,1 @@
+{"domain": "endocrine", "model": "farhy_bowers_veldhuis_2007_b", "total_samples": 100, "T": 1, "N_t": 100, "d_constants": 0.1, "d_states": 0.1, "rand_start": false, "high_score": 0.0041326335802414895, "channel_scores": [0.004958870000411236, 0.0021445139313595236, 0.008987420189388137, 0.0, 0.004572363780048552]}

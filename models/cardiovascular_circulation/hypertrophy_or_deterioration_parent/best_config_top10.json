@@ -1,0 +1,1 @@
+{"domain": "cardiovascular_circulation", "model": "hypertrophy_or_deterioration_parent", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.1, "rand_start": false, "high_score": 2.976377129255929e-14, "channel_scores": [4.973142210575475e-14, 3.9558662573677105e-14, 1.2291982460143718e-18]}

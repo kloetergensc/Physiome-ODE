@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "bonhoeffer_rembiszewski_ortiz_nixon_2000_b", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.3, "d_states": 0.5, "rand_start": false, "high_score": 0.0005527617175238914, "channel_scores": [1.5675800243904143e-05, 0.0013878453894488581, 0.0008045767691462894, 2.948911256513685e-06]}

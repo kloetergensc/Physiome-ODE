@@ -1,0 +1,1 @@
+{"domain": "calcium_dynamics", "model": "gall_susa_1999_a", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.05, "d_states": 0.5, "rand_start": false, "high_score": 0.0015369117329633605, "channel_scores": [1.7537785803695847e-05, 0.004593197260962327, 1.5212405950913803e-10]}

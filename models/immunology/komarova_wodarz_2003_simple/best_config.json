@@ -1,0 +1,1 @@
+{"domain": "immunology", "model": "komarova_wodarz_2003_simple", "total_samples": 100, "T": 30, "N_t": 100, "d_constants": 0.1, "d_states": 0.5, "rand_start": false, "high_score": 0.0008852282693005966, "channel_scores": [0.0008884900851030082, 0.000881966453498185]}
