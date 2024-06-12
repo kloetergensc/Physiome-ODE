@@ -13,7 +13,7 @@ re-creating IMTSBench from scratch might lead to different datasets.
 ## Tuning and evaluating the ODE models. 
 To curate IMTSBench, we first tuned and evaluated models. 
 To create 100 time series for each 
-possible combination of $\sigma_{dur} (T)$, $\sigma_{states} (d_s)$, $ \sigma_{const}(d_c)$ from an ODE model use generate_raw_data.py. E.g. for dupont-1991a execute:
+possible combination of $\sigma_{dur} (T)$, $\sigma_{states} (d_s)$, $\sigma_{const}(d_c)$ from an ODE model use generate_raw_data.py. E.g. for dupont-1991a execute:
 
 '''
 python data_creation/generate_raw_data.py --model dupont_1991b --domain calcium_dynamics
