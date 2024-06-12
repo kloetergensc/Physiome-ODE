@@ -33,7 +33,7 @@ generate_benchmark.py, e.g.
 '''
 python data_creation/generate_benchmark.py --model dupont_1991b --domain calcium_dynamics --T 10 --ds 0.3 --dc 0.05
 '''
-For that purpose we included the 50 models of IMTS, with respective $\sigma_{dur}$, $\sigma_{states}$, $ \sigma_{const}$ in resources/Top50_final.csv . If you want to create this yourself you can use the code in notebooks/get_best.ipynb 
+For that purpose we included the 50 models of IMTS, with respective $\sigma_{dur}$, $\sigma_{states}$, $\sigma_{const}$ in resources/Top50_final.csv . If you want to create this yourself you can use the code in notebooks/get_best.ipynb 
 Note that the Top50_final.csv is necassary to run the next step as well.
 
 ## Transforming the time series instances into IMTS
