@@ -1,7 +1,7 @@
 # Physiome-ODE
 This is the Git Repository from 
 	
-Physiome-ODE: A Benchmark for Irregularly Sampled Multivariate Time-Series Forecasting based on ODEs (Kloetergens et. al, 2024),
+Physiome-ODE: A Benchmark for Irregularly Sampled Multivariate Time-Series Forecasting based on ODEs,
 submitted to The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track.
 
 # Downloading the dataset
