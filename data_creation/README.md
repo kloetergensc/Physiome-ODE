@@ -1,16 +1,16 @@
-# IMTSBench Data Creation
-This directory contains all the steps to create the IMTSBench dataset collection.
+# Physiome-ODE Data Creation
+This directory contains all the steps to create the Physiome-ODE dataset collection.
 All these steps can be skipped by simply downloading the dataset from zenodo (after double-blind review phase)
 Simply put the folder named "final" in the IMTS_benchmark_datasets folder, and you can run the training scripts.
 
 ## Crawl the ODE models from the Physionet.
-The first step to recreating the IMTSBench dataset is to collect the generated Python files from the Physiome repository.
+The first step to recreating the Physiome-ODE dataset is to collect the generated Python files from the Physiome repository.
 To do so, you can execute the crawl.py file. 
 Since we cannot guarantee that PhysioMe still has the exact same content as during the time we ran this script, 
-re-creating IMTSBench from scratch might lead to different datasets.
+re-creating Physiome-ODE from scratch might lead to different datasets.
 
 ## Tuning and evaluating the ODE models. 
-To curate IMTSBench, we first tuned and evaluated models. 
+To curate Physiome-ODE, we first tuned and evaluated models. 
 To create 100 time series for each 
 possible combination of $\sigma_{dur} (T)$, $\sigma_{states} (d_s)$, $\sigma_{const} (d_c)$ from an ODE model use generate_raw_data.py. E.g. for dupont-1991a execute:
 
