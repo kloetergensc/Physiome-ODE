@@ -10,7 +10,7 @@ Physiome-ODE can be downloaded here: https://zenodo.org/records/11492058
 The downloaded folder should be copied to data/IMTS_benchmark_datasets/ and renamed to imts_bench
 
 # Recreating or modifying the dataset (Optional)
-Instead of downloading our version of IMTS you can also create your own version with any desired modification. 
+Instead of downloading our version of Physiome-ODE you can also create your own version with any desired modification. 
 For that we shared a detailed step-by-step instruction in the data_creation/README.md. 
 
 # Train models on Physiome-ODE
