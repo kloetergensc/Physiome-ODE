@@ -2,12 +2,11 @@
 This is the Git Repository from 
 	
 Physiome-ODE: A Benchmark for Irregularly Sampled Multivariate Time-Series Forecasting based on ODEs,
-submitted to The Thirty-eight Conference on Neural Information Processing Systems Datasets and Benchmarks Track.
+submitted to the Thirteenth International Conference on Learning Representations (ICLR 2025)
 
 # Downloading the dataset
 
-Physiome-ODE can be downloaded here: https://zenodo.org/records/11492058
-The downloaded folder should be copied to data/IMTS_benchmark_datasets/ and renamed to imts_bench
+Physiome-ODE will be available on zenodo, after the double-blind review phase. 
 
 # Recreating or modifying the dataset (Optional)
 Instead of downloading our version of Physiome-ODE you can also create your own version with any desired modification. 
