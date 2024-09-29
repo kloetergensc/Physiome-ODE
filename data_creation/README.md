@@ -1,7 +1,6 @@
 # IMTSBench Data Creation
 This directory contains all the steps to create the IMTSBench dataset collection.
-All these steps can be skipped by simply downloading the dataset from:
-https://zenodo.org/records/11492058
+All these steps can be skipped by simply downloading the dataset from zenodo (after double-blind review phase)
 Simply put the folder named "final" in the IMTS_benchmark_datasets folder, and you can run the training scripts.
 
 ## Crawl the ODE models from the Physionet.
