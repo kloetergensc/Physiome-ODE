@@ -102,20 +102,20 @@ def optimize_dataset(domain, model):
         json.dump(result_top10, outfile)
 
 
-parser = argparse.ArgumentParser(description="Process some files.")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Process some files.")
 
-# Add the arguments
-parser.add_argument(
-    "--model", type=str, required=True, help="The path to the file to process"
-)
+    # Add the arguments
+    parser.add_argument(
+        "--model", type=str, required=True, help="The path to the file to process"
+    )
 
-parser.add_argument(
-    "--domain", type=str, required=True, help="The path to the file to process"
-)
+    parser.add_argument(
+        "--domain", type=str, required=True, help="The path to the file to process"
+    )
 
-
-# Parse the arguments
-args = parser.parse_args()
-print(args)
-optimize_dataset(domain=args.domain, model=args.model)
+    # Parse the arguments
+    args = parser.parse_args()
+    print(args)
+    optimize_dataset(domain=args.domain, model=args.model)
 print("DONE")
