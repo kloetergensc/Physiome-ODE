@@ -6,7 +6,7 @@ submitted to the Thirteenth International Conference on Learning Representations
 
 # Downloading the dataset
 
-Physiome-ODE will be available on zenodo, after the double-blind review phase. 
+Physiome-ODE can be downloaded on Zenodo: https://zenodo.org/records/11492058
 
 # Recreating or modifying the dataset (Optional)
 Instead of downloading our version of Physiome-ODE you can also create your own version with any desired modification. 
