@@ -166,18 +166,19 @@ def create_dataloaders(
 
 
 raw_data_path = "data/benchmark_datasets/"
-name = "imts_bench"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate IMTSBench")
     parser.add_argument("--model", type=str, required=True)
     args = parser.parse_args()
     print(args)
+    # t_drop: Chance to drop a complete timestep (with all observations)
+    # c_drop: Chance of dropping a tuple of dropping a channel within a timestep
     t_drop = 0.0
     c_drop = 0.8
-    if not os.path.isdir(f"data/IMTS_benchmark_datasets/{name}"):
-        os.mkdir(f"data/IMTS_benchmark_datasets/{name}")
-    out_path = f"data/IMTS_benchmark_datasets/{name}/{args.model}"
+    if not os.path.isdir(f"data/final/"):
+        os.mkdir(f"data/final/")
+    out_path = f"data/final/{args.model}"
     os.mkdir(out_path)
     for fold in range(5):
         os.mkdir(out_path + "/" + str(fold))

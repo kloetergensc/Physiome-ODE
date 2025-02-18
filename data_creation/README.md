@@ -1,7 +1,7 @@
 # Physiome-ODE Data Creation
 This directory contains all the steps to create the Physiome-ODE dataset collection.
-All these steps can be skipped by simply downloading the dataset from zenodo (after double-blind review phase)
-Simply put the folder named "final" in the IMTS_benchmark_datasets folder, and you can run the training scripts.
+All these steps can be skipped by simply downloading the dataset from zenodo.
+Simply put the folder named "final/" in the "data/" folder, and you can run the training scripts.
 
 ## Crawl the ODE models from the Physionet.
 The first step to recreating the Physiome-ODE dataset is to collect the generated Python files from the Physiome repository.
