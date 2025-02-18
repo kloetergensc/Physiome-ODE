@@ -2,3 +2,4 @@
 *.pyc
 data/*
 *.swp
+experiments/training/saved_models/*
