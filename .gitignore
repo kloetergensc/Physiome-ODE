@@ -1,3 +1,4 @@
 *.parquet
 *.pyc
 data/*
+*.swp
