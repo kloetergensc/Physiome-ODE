@@ -23,7 +23,6 @@ parser.add_argument("-so", "--solver", default="euler", choices = ["euler", "dop
 parser.add_argument("-nf", "--nfolds", default=5, type=int, help="#folds for crossvalidation")
 parser.add_argument("-fh", "--forc-time", default=0.5, type=float, help="forecast horizon [0,1]")
 parser.add_argument("-ot", "--observation-time", default=0.5, type=float, help="conditioning range [0,1]")
-parser.add_argument("-bn", "--benchmark", default="imts_bench")
 parser.add_argument("-dset", "--dataset", required=True, type=str, help="Name of the dataset")
 
 
@@ -35,7 +34,7 @@ ARGS = parser.parse_args()
 print(" ".join(sys.argv))
 experiment_id = int(SystemRandom().random() * 10000000)
 print(ARGS, experiment_id)
-model_path = f"experiments/training/saved_models/GOB_{ARGS.dataset}_{experiment_id}.h5"
+model_path = f"saved_models/GOB_{ARGS.dataset}_{experiment_id}.h5"
 
 
 params_dict = {}
@@ -117,7 +116,7 @@ OPTIMIZER_CONFIG = {
 
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
-    path=f"data/IMTS_benchmark_datasets/{ARGS.benchmark}/{ARGS.dataset}/",
+    path=f"../../data/final/{ARGS.dataset}/",
     observation_time=ARGS.observation_time,
     forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,

@@ -67,12 +67,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(DEVICE)
 
 model_path = (
-    "experiments/training/saved_models/"
-    + "GrAFITi_"
-    + ARGS.dataset
-    + "_"
-    + str(experiment_id)
-    + ".h5"
+    "saved_models/" + "GrAFITi_" + ARGS.dataset + "_" + str(experiment_id) + ".h5"
 )
 os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -92,7 +87,7 @@ OPTIMIZER_CONFIG = {
 
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
-    path=f"data/final/{ARGS.dataset}/",
+    path=f"../../data/final/{ARGS.dataset}/",
     observation_time=ARGS.observation_time,
     forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,

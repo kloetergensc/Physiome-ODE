@@ -235,7 +235,6 @@ parser.add_argument(
     help="conditioning range [0,1]",
 )
 
-parser.add_argument("-bn", "--benchmark", default="imts_bench")
 
 import sys
 
@@ -265,7 +264,7 @@ if __name__ == "__main__":
 
     TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
         fold=args.fold,
-        path=f"data/IMTS_benchmark_datasets/{args.benchmark}/{args.dataset}/",
+        path=f"../../data/final/{args.dataset}/",
         observation_time=args.observation_time,
         forecasting_horizon=args.forc_time,
         batch_size=args.batch_size,

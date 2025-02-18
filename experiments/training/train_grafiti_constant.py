@@ -38,7 +38,6 @@ parser.add_argument("-ldim",  "--latent-dim", default=128,   type=int,   help=""
 parser.add_argument("-fh", "--forc-time", default=0.5, type=float, help="forecast horizon [0,1]")
 parser.add_argument("-ot", "--observation-time", default=0.5, type=float, help="conditioning range [0,1]")
 parser.add_argument("-nf", "--nfolds", default=5, type=int, help="#folds for crossvalidation")
-parser.add_argument("-bn", "--benchmark", default="imts_bench")
 parser.add_argument("-dset", "--dataset", required=True, type=str, help="Name of the dataset")
 
 import pdb
@@ -65,12 +64,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(DEVICE)
 
 model_path = (
-    "experiments/training/saved_models/"
-    + "GrAFITi_"
-    + ARGS.dataset
-    + "_"
-    + str(experiment_id)
-    + ".h5"
+    "saved_models/" + "GrAFITiC_" + ARGS.dataset + "_" + str(experiment_id) + ".h5"
 )
 os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -93,7 +87,7 @@ OPTIMIZER_CONFIG = {
 
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
-    path=f"data/IMTS_benchmark_datasets/{ARGS.benchmark}/{ARGS.dataset}/",
+    path=f"../../data/final/{ARGS.dataset}/",
     observation_time=ARGS.observation_time,
     forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,

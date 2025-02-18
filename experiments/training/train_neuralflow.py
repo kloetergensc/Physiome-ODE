@@ -138,7 +138,6 @@ parser.add_argument(
 parser.add_argument(
     "-nf", "--nfolds", default=5, type=int, help="#folds for crossvalidation"
 )
-parser.add_argument("-bn", "--benchmark", default="imts_bench")
 parser.add_argument(
     "-dset", "--dataset", required=True, type=str, help="Name of the dataset"
 )
@@ -150,9 +149,7 @@ experiment_id = int(SystemRandom().random() * 10000000)
 print(ARGS, experiment_id)
 ARGS.data = ARGS.dataset
 
-model_path = (
-    f"experiments/training/saved_models/LinODE_{ARGS.dataset}_{experiment_id}.h5"
-)
+model_path = f"saved_models/LinODE_{ARGS.dataset}_{experiment_id}.h5"
 
 warnings.filterwarnings(action="ignore", category=UserWarning, module="torch")
 logging.basicConfig(level=logging.WARN)
@@ -171,7 +168,7 @@ OPTIMIZER_CONFIG = {
 
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
-    path=f"data/IMTS_benchmark_datasets/{ARGS.benchmark}/{ARGS.dataset}/",
+    path=f"../../data/final/{ARGS.dataset}/",
     observation_time=ARGS.observation_time,
     forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,
