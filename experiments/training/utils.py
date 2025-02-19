@@ -129,12 +129,10 @@ def create_dataloaders(model, fold, observation_time, forecasting_horizon, spars
     torch.save(test_dataset, f"{out_path}/test.pt")
 
 
-def get_data_loaders(
-    path, fold, observation_time, forecasting_horizon, batch_size, collate_fn
-):
-    train_dataset = torch.load(f"{path}/{fold}/train.pt")
-    valid_dataset = torch.load(f"{path}/{fold}/valid.pt")
-    test_dataset = torch.load(f"{path}/{fold}/test.pt")
+def get_data_loaders(path, fold, batch_size, collate_fn):
+    train_dataset = torch.load(f"{path}/{fold}/train.pt", weights_only=False)
+    valid_dataset = torch.load(f"{path}/{fold}/valid.pt", weights_only=False)
+    test_dataset = torch.load(f"{path}/{fold}/test.pt", weights_only=False)
 
     TRAIN_LOADER = DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True, collate_fn=collate_fn

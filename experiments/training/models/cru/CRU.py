@@ -32,8 +32,7 @@ from models.cru.data_utils import adjust_obs_for_extrapolation, align_output_and
 from models.cru.decoder import BernoulliDecoder, SplitDiagGaussianDecoder
 from models.cru.encoder import Encoder
 from models.cru.losses import GaussianNegLogLik, bernoulli_nll, mae, mse, rmse
-from models.cru.utils import TimeDistributed, log_to_tensorboard, make_dir
-from torch.utils.tensorboard import SummaryWriter
+from models.cru.utils import TimeDistributed, make_dir
 
 optim = torch.optim
 nn = torch.nn
@@ -660,10 +659,6 @@ class CRU(nn.Module):
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_update)
 
-        make_dir(f"../results/tensorboard/{self.args.dataset}")
-        writer = SummaryWriter(
-            f"../results/tensorboard/{self.args.dataset}/{identifier}"
-        )
         make_dir(f"../results/models/{self.args.dataset}")
         best_valid = 1000000
         epoch_times = []
@@ -683,19 +678,6 @@ class CRU(nn.Module):
                 train_imput_metrics,
             ) = self.train_epoch(train_dl, optimizer)
             end_training = datetime.now()
-            if self.args.tensorboard:
-                log_to_tensorboard(
-                    self,
-                    writer=writer,
-                    mode="train",
-                    metrics=[train_ll, train_rmse, train_mse],
-                    output=train_output,
-                    input=train_input,
-                    intermediates=intermediates,
-                    epoch=epoch,
-                    imput_metrics=train_imput_metrics,
-                    log_rythm=self.args.log_rythm,
-                )
 
             # validation
             (
@@ -708,20 +690,6 @@ class CRU(nn.Module):
                 valid_input,
                 valid_imput_metrics,
             ) = self.eval_epoch(valid_dl)
-            if self.args.tensorboard:
-                log_to_tensorboard(
-                    self,
-                    writer=writer,
-                    mode="valid",
-                    metrics=[valid_ll, valid_rmse, valid_mse],
-                    output=valid_output,
-                    input=valid_input,
-                    intermediates=intermediates,
-                    epoch=epoch,
-                    imput_metrics=valid_imput_metrics,
-                    log_rythm=self.args.log_rythm,
-                )
-
             end = datetime.now()
             logger.info(
                 f"Training epoch {epoch} took: {(end_training - start).total_seconds()}"
@@ -778,20 +746,6 @@ class CRU(nn.Module):
             valid_imput_metrics,
         ) = self.eval_epoch(test_dl)
         print(f"inference_time: {(datetime.now()-inf_start).total_seconds()}")
-        if self.args.tensorboard:
-            log_to_tensorboard(
-                self,
-                writer=writer,
-                mode="valid",
-                metrics=[valid_ll, valid_rmse, valid_mse],
-                output=valid_output,
-                input=valid_input,
-                intermediates=intermediates,
-                epoch=epoch,
-                imput_metrics=valid_imput_metrics,
-                log_rythm=self.args.log_rythm,
-            )
-
         end = datetime.now()
         logger.info(f"Best_val_loss: {best_valid:3f}, test_loss: {valid_mse:3f}")
         print(f"best_val_loss: {best_valid:3f}, test_loss: {valid_mse:3f}")

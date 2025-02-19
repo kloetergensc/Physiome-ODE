@@ -27,7 +27,6 @@
 import logging
 import os
 
-import matplotlib.pyplot as plt
 import torch
 from torch import nn
 
@@ -205,74 +204,3 @@ def extract_intermediates(intermediates):
     ]
 
     return intermediates, intermediates_names
-
-
-# new code component
-def log_to_tensorboard(
-    model,
-    writer,
-    mode,
-    metrics,
-    output,
-    input,
-    intermediates,
-    epoch,
-    imput_metrics=None,
-    log_rythm=20,
-):
-    ll, rmse, mse = metrics
-    output_mean, output_var = output
-    obs, truth, mask_obs = input
-    mode_name = "training" if mode == "train" else "validation"
-    args = model.args
-    matrix_list = "exp_A" if args.f_cru else ["exp_A", "exp_B", "M2"]
-
-    writer.add_scalar(f"{mode_name} ll", ll, epoch)
-    writer.add_scalar(f"{mode_name} rmse", rmse, epoch)
-    writer.add_scalar(f"{mode_name} mse", mse, epoch)
-
-    if imput_metrics is not None:
-        writer.add_scalar(f"{mode_name} ll imput", imput_metrics[0], epoch)
-        writer.add_scalar(f"{mode_name} mse imput", imput_metrics[1], epoch)
-
-    # writer.add_scalar(f'{mode} variance', torch.sum(mask_truth * output_var), epoch)
-    if epoch % log_rythm == 0:
-        if mode == "train":
-            for matrix in matrix_list:
-                f, ax = plt.subplots()
-                sns.heatmap(
-                    model._cru_layer._cell.__dict__[matrix].detach().cpu()[0, ...],
-                    ax=ax,
-                )
-                writer.add_figure(matrix, f, epoch)
-
-            for name, comp in intermediates.items():
-                f, ax = plt.subplots()
-                sns.heatmap(comp.detach().cpu()[0, ...], ax=ax)
-                writer.add_figure(name, f, epoch)
-
-            for name, par in model.named_parameters():
-                if par.requires_grad:
-                    writer.add_histogram(name, par, epoch)
-                    writer.add_histogram("gradient:" + name, par.grad, epoch)
-
-        writer.add_histogram(f"{mode} out_mean", output_mean, epoch)
-
-        if model.bernoulli_output:
-            for comp, name in zip([obs, truth, output_mean], ["obs", "targets", "out"]):
-                writer.add_images(
-                    f"{mode} {name}", comp[0, ...], epoch, dataformats="NCHW"
-                )
-
-        elif args.task == "regression":
-            writer.add_images(f"{mode} obs", obs[0, ...], epoch, dataformats="NCHW")
-
-        else:
-            writer.add_histogram(f"{mode} out_var", output_var, epoch)
-            for comp, name in zip(
-                [obs, mask_obs, truth, output_mean, output_var],
-                ["obs", "mask_obs", "targets", "out", "out var"],
-            ):
-                f, ax = plt.subplots()
-                sns.heatmap(comp.detach().cpu()[0, ...], ax=ax)
-                writer.add_figure(f"{mode} {name}", f, epoch)

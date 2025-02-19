@@ -65,22 +65,15 @@ if ARGS.config is not None:
         cfg_dict = yaml.safe_load(file)
         vars(ARGS).update(**cfg_dict[int(cfg_id)])
 
-print(ARGS)
-
-
 import logging
 import os
-import pdb
-import random
 import warnings
 from datetime import datetime
 from pathlib import Path
 
 import numpy as np
 import torch
-from IPython.core.display import HTML
 from torch import Tensor, jit
-from tqdm.autonotebook import tqdm, trange
 from utils import IMTS_dataset, get_data_loaders
 
 os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
@@ -92,14 +85,11 @@ torch.backends.cudnn.benchmark = True
 
 warnings.filterwarnings(action="ignore", category=UserWarning, module="torch")
 logging.basicConfig(level=logging.WARN)
-HTML("<style>.jp-OutputArea-prompt:empty {padding: 0; border: 0;}</style>")
 
 import time
 
 import models.gruodebayes.data_utils as data_utils
 import models.gruodebayes.models as gru_ode_bayes
-import tqdm
-from sklearn.metrics import roc_auc_score
 
 # ## Hyperparameter choices
 
@@ -117,8 +107,6 @@ OPTIMIZER_CONFIG = {
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
     path=f"../../data/final/{ARGS.dataset}/",
-    observation_time=ARGS.observation_time,
-    forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,
     collate_fn=data_utils.tsdm_collate_val,
 )
@@ -184,7 +172,7 @@ val_metric_prev = 1000
 
 
 def test_evaluation(model, params_dict, class_criterion, DEVICE, dl_test):
-    chp = torch.load(model_path)
+    chp = torch.load(model_path, weights_only=False)
     model.load_state_dict(chp["state_dict"])
     with torch.no_grad():
         model.eval()
@@ -229,14 +217,6 @@ def test_evaluation(model, params_dict, class_criterion, DEVICE, dl_test):
                 loss + params_dict["lambda"] * class_criterion(class_pred, labels)
             ) / batch_size
 
-            try:
-                auc_test = roc_auc_score(labels.cpu(), torch.sigmoid(class_pred).cpu())
-            except ValueError:
-                if params_dict["verbose"] >= 3:
-                    print("Only one class. AUC is wrong")
-                auc_test = 0
-                pass
-
             if params_dict["lambda"] == 0:
                 t_vec = np.around(
                     t_vec, str(params_dict["delta_t"])[::-1].find(".")
@@ -259,7 +239,6 @@ def test_evaluation(model, params_dict, class_criterion, DEVICE, dl_test):
                 num_obs = 1
 
             total_loss_test += total_loss.cpu().detach().numpy()
-            auc_total_test += auc_test
 
         loss_test /= num_obs
         mse_test /= num_obs
@@ -305,14 +284,6 @@ for epoch in range(ARGS.epochs):
         ) / batch_size
         total_train_loss += total_loss
         tot_loglik_loss += mse_loss
-        try:
-            auc_total_train += roc_auc_score(
-                labels.detach().cpu(), torch.sigmoid(class_pred).detach().cpu()
-            )
-        except ValueError:
-            if params_dict["verbose"] >= 3:
-                print("Single CLASS ! AUC is erroneous")
-            pass
 
         total_loss.backward()
         optimizer.step()
@@ -369,14 +340,6 @@ for epoch in range(ARGS.epochs):
                 loss + params_dict["lambda"] * class_criterion(class_pred, labels)
             ) / batch_size
 
-            try:
-                auc_val = roc_auc_score(labels.cpu(), torch.sigmoid(class_pred).cpu())
-            except ValueError:
-                auc_val = 0.5
-                if params_dict["verbose"] >= 3:
-                    print("Only one class : AUC is erroneous")
-                pass
-
             if params_dict["lambda"] == 0:
                 t_vec = np.around(
                     t_vec, str(params_dict["delta_t"])[::-1].find(".")
@@ -398,7 +361,6 @@ for epoch in range(ARGS.epochs):
                 num_obs = 1
 
             total_loss_val += total_loss.cpu().detach().numpy()
-            auc_total_val += auc_val
 
         loss_val /= num_obs
         mse_val /= num_obs

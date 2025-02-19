@@ -14,9 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import argparse
-import datetime
 import os
-import pdb
 import sys
 import warnings
 from random import SystemRandom
@@ -265,8 +263,6 @@ if __name__ == "__main__":
     TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
         fold=args.fold,
         path=f"../../data/final/{args.dataset}/",
-        observation_time=args.observation_time,
-        forecasting_horizon=args.forc_time,
         batch_size=args.batch_size,
         collate_fn=task_collate_fn,
     )

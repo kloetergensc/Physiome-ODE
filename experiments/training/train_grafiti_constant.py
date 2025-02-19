@@ -11,7 +11,6 @@ from random import SystemRandom
 
 import numpy as np
 import torch
-from IPython.core.display import HTML
 from models.grafiti.gratif import tsdm_collate
 from torch import Tensor, jit
 from utils import IMTS_dataset, get_data_loaders
@@ -58,8 +57,6 @@ if ARGS.config is not None:
         cfg_dict = yaml.safe_load(file)
         vars(ARGS).update(**cfg_dict[int(cfg_id)])
 
-print(ARGS)
-
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(DEVICE)
 
@@ -73,7 +70,6 @@ torch.backends.cudnn.benchmark = True
 
 warnings.filterwarnings(action="ignore", category=UserWarning, module="torch")
 logging.basicConfig(level=logging.WARN)
-HTML("<style>.jp-OutputArea-prompt:empty {padding: 0; border: 0;}</style>")
 
 torch.manual_seed(ARGS.fold)
 random.seed(ARGS.fold)
@@ -88,8 +84,6 @@ OPTIMIZER_CONFIG = {
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
     path=f"../../data/final/{ARGS.dataset}/",
-    observation_time=ARGS.observation_time,
-    forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,
     collate_fn=tsdm_collate,
 )
@@ -232,7 +226,7 @@ for epoch in range(1, ARGS.epochs + 1):
     # LOGGER.log_epoch_end(epoch)
     if (epoch == ARGS.epochs) or (es == True):
         print(f"tot_train_time: {time.time()- ovr_start_time}")
-        chp = torch.load(model_path)
+        chp = torch.load(model_path, weights_only=False)
         MODEL.load_state_dict(chp["state_dict"])
         loss_list = []
         mae_list = []

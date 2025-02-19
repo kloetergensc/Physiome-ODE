@@ -2,7 +2,6 @@ import argparse
 import sys
 from random import SystemRandom
 
-from IPython.core.display import HTML
 from utils import IMTS_dataset, get_data_loaders
 
 # fmt: off
@@ -44,7 +43,6 @@ if ARGS.config is not None:
         vars(ARGS).update(**cfg_dict[int(cfg_id)])
 
 import os
-import random
 import time
 import warnings
 from datetime import datetime
@@ -53,7 +51,6 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch import Tensor, jit
-from tqdm.autonotebook import tqdm, trange
 
 os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -63,7 +60,6 @@ torch.backends.cudnn.benchmark = True
 # torch.multiprocessing.set_start_method('spawn')
 
 warnings.filterwarnings(action="ignore", category=UserWarning, module="torch")
-HTML("<style>.jp-OutputArea-prompt:empty {padding: 0; border: 0;}</style>")
 
 
 OPTIMIZER_CONFIG = {
@@ -81,8 +77,6 @@ from models.linodenet.utils.data_utils import linodenet_collate as task_collate_
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
     path=f"../../data/final/{ARGS.dataset}/",
-    observation_time=ARGS.observation_time,
-    forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,
     collate_fn=task_collate_fn,
 )
@@ -232,7 +226,7 @@ for epoch in range(ARGS.epochs):
             )
         else:
             print("Exhausted all the epochs")
-        chp = torch.load(model_path)
+        chp = torch.load(model_path, weights_only=False)
         MODEL.load_state_dict(chp["state_dict"])
         start_inf = time.time()
         test_loss, test_mae = eval_model(MODEL, TEST_LOADER, ARGS)

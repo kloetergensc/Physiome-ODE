@@ -1,8 +1,6 @@
 import argparse
 import logging
 import os
-import pdb
-import random
 import sys
 import time
 import warnings
@@ -13,7 +11,6 @@ from random import SystemRandom
 
 import numpy as np
 import torch
-from IPython.core.display import HTML
 from models.neuralflow import data_utils
 from torch import Tensor, jit
 from utils import IMTS_dataset, get_data_loaders
@@ -153,7 +150,6 @@ model_path = f"saved_models/LinODE_{ARGS.dataset}_{experiment_id}.h5"
 
 warnings.filterwarnings(action="ignore", category=UserWarning, module="torch")
 logging.basicConfig(level=logging.WARN)
-HTML("<style>.jp-OutputArea-prompt:empty {padding: 0; border: 0;}</style>")
 
 
 # Configure the optimizer
@@ -169,8 +165,6 @@ OPTIMIZER_CONFIG = {
 TRAIN_LOADER, VALID_LOADER, TEST_LOADER = get_data_loaders(
     fold=ARGS.fold,
     path=f"../../data/final/{ARGS.dataset}/",
-    observation_time=ARGS.observation_time,
-    forecasting_horizon=ARGS.forc_time,
     batch_size=ARGS.batch_size,
     collate_fn=data_utils.tsdm_collate_val,
 )
@@ -348,7 +342,7 @@ for epoch in range(ARGS.epochs):
             )
         else:
             print("Exhausted all the epochs")
-        chp = torch.load(model_path)
+        chp = torch.load(model_path, weights_only=False)
         model.load_state_dict(chp["state_dict"])
         inf_start = time.time()
         test_loss, test_mae = eval_model(model, TEST_LOADER, ARGS)
