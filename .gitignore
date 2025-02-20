@@ -1,5 +1,6 @@
 *.parquet
 *.pyc
-data/*
 *.swp
-experiments/training/saved_models/*
+experiments/models
+*.log
+*.h5
