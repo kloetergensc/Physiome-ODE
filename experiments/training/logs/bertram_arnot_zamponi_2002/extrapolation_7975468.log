@@ -1,0 +1,24 @@
+/home/kloetergens/Physiome-ODE/experiments/training/train_cru.py
+train_cru.py --latent-state-dim 20 --num-basis 20 --bandwidth 10 -dset bertram_arnot_zamponi_2002 -ot 0.5 -fh 0.5
+parameters: 24702
+Epoch 0 starts: 15:40:31
+Training epoch 0 took: 31.200041
+Epoch 0 took: 34.19119
+ train_nll: 0.783439, train_mse: 0.537287
+ valid_nll: 0.000454, valid_mse: 0.434769
+Epoch 1 starts: 15:41:05
+Training epoch 1 took: 29.841357
+Epoch 1 took: 32.873519
+ train_nll: 0.681261, train_mse: 0.441244
+ valid_nll: 0.000424, valid_mse: 0.398572
+Epoch 2 starts: 15:41:38
+Training epoch 2 took: 29.761469
+Epoch 2 took: 32.836213
+ train_nll: 0.643990, train_mse: 0.414034
+ valid_nll: 0.000406, valid_mse: 0.389441
+Epoch 3 starts: 15:42:11
+Training epoch 3 took: 29.758453
+Epoch 3 took: 32.89789
+ train_nll: 0.628883, train_mse: 0.410898
+ valid_nll: 0.000375, valid_mse: 0.368112
+Epoch 4 starts: 15:42:44

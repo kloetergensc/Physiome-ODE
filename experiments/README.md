@@ -6,5 +6,4 @@ As an example we show how to run CRU on the dupont_1991b dataset for fold 0.
 python experiments/training/train_gruodebayes.py -dset dupont_1991b --fold 0
 '''
 
-To successfully run this you need a folder in data/IMTS_benchmark_datasets. 
-All datasets contained in Physiome-ODE will be available on zenodo, after the double blind review phase
+The experiments are run on the data contained in data/final
