@@ -1,2 +1,0 @@
-/home/kloetergens/Physiome-ODE/experiments/training/train_cru.py
-train_cru.py --latent-state-dim 20 --num-basis 20 --bandwidth 10 -dset bertram_arnot_zamponi_2002 -ot 0.5 -fh 0.5
