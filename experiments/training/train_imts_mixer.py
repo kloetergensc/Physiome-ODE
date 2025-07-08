@@ -25,7 +25,7 @@ parser.add_argument("-e",  "--epochs",       default=1000,    type=int,   help="
 parser.add_argument("-es",  "--early-stop",  default=10,    type=int,   help="early stop patience")
 parser.add_argument("-f",  "--fold",         default=0,      type=int,   help="fold number")
 parser.add_argument("-bs", "--batch-size",   default=32,     type=int,   help="batch-size")
-parser.add_argument("--lr",  default=0.001,  type=float, help="learn-rate")
+parser.add_argument("--lr",  default=0.01,  type=float, help="learn-rate")
 parser.add_argument("-b",  "--betas", default=(0.9, 0.999),  type=float, help="adam betas", nargs=2)
 parser.add_argument("-wd", "--weight-decay", default=0.0001,  type=float, help="weight-decay")
 parser.add_argument("-n",  "--note",         default="",     type=str,   help="Note that can be added")
@@ -36,13 +36,13 @@ parser.add_argument("-dset", "--dataset", required=True, type=str, help="Name of
 
 parser.add_argument(
     "--D",
-    default=64,
+    default=128,
     type=int,
     help="Dimension of channel encoding"
 )
 parser.add_argument(
     "--Dout",
-    default=32,
+    default=128,
     type=int,
     help="Output dimension of final mixerblock"
 )
@@ -54,7 +54,7 @@ parser.add_argument(
     help="Hidden dimension of NNs outside of the mixer blocks"
 )
 parser.add_argument(
-    "-mix", "--mixer-blocks", default=1, type=int, help="Number of mixerblocks"
+    "-mix", "--mixer-blocks", default=3, type=int, help="Number of mixerblocks"
 )
 # fmt: on
 
@@ -132,8 +132,8 @@ T, X, M, TY, Y, MY = (tensor for tensor in batch)
 MODEL_CONFIG = {
     "device": DEVICE,
     "channels": X.shape[-1],
-    "hidden_dim": ARGS.D,
-    "hidden_dim_dec": ARGS.Dout,
+    "D": ARGS.D,
+    "D_dec": ARGS.Dout,
     "kernel_hidden_dim": ARGS.kernel_hidden_dim,
     "mixer_blocks": ARGS.mixer_blocks,
 }
@@ -144,7 +144,7 @@ MODEL = IMTSMixer(**MODEL_CONFIG).to(DEVICE)
 def predict_fn(model, batch) -> tuple[Tensor, Tensor, Tensor]:
     """Get targets and predictions."""
     T, X, M, TY, Y, MY = (tensor.to(DEVICE) for tensor in batch)
-    YHAT = model(T=T, X=X, M=M, YT=TY, MY=MY)
+    YHAT = model(T=T, X=X, M=M.to(bool), YT=TY, MY=MY)
     return Y, YHAT, MY.to(bool)
 
 
