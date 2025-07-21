@@ -406,4 +406,6 @@ for epoch in range(ARGS.epochs):
             # print(f"Test MSE loss at epoch{epoch} : {test_mse}")
             print(f"best_val_loss: {val_metric_prev}, test_loss: {test_mse}")
             print(f"test_mae: {test_mae}")
+            num_params = sum(p.numel() for p in MODEL.parameters() if p.requires_grad)
+            print(f"Number of trainable parameters: {num_params}")
             break

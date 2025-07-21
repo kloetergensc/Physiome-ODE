@@ -29,52 +29,19 @@ class MixerBlock(nn.Module):
         return z
 
 
-class Time_Embedding(nn.Module):
-    def __init__(
-        self,
-        khd,
-        D,
-    ):
-        super().__init__()
-        self.nn = nn.Sequential(
-            nn.Linear(1, khd),
-            nn.ReLU(),
-            nn.Linear(khd, D),
-        )
-
-    def forward(self, T):
-        return self.nn(T)
-
-
-class Tuple_Encoder_Linear(nn.Module):
-    def __init__(self, D, khd=32):
-        super().__init__()
-        self.linear = nn.Sequential(nn.Linear(2, khd), nn.ReLU(), nn.Linear(khd, D))
-
-    def forward(self, X, T):
-        return self.linear(torch.stack([X, T], dim=-1))
-
-
 class Tuple_Encoder(nn.Module):
 
     def __init__(
         self,
         khd,
         D,
-        multiplicative=True,
     ):
         super().__init__()
 
-        self.T_emb = Time_Embedding(D=D, khd=khd)
-        self.V_emb = nn.Sequential(nn.Linear(1, khd), nn.ReLU(), nn.Linear(khd, D))
-        self.multiplicative = multiplicative
+        self.nn = nn.Sequential(nn.Linear(2, khd), nn.ReLU(), nn.Linear(khd, D))
 
     def forward(self, X, T):
-        if self.multiplicative:
-            return self.V_emb(X.unsqueeze(-1)) * (self.T_emb(T.unsqueeze(-1)))
-
-        else:
-            return self.V_emb(X.unsqueeze(-1)) + (self.T_emb(T.unsqueeze(-1)))
+        return self.nn(torch.cat([X.unsqueeze(-1), T.unsqueeze(-1)], -1))
 
 
 class Encoder(nn.Module):
@@ -90,12 +57,10 @@ class Encoder(nn.Module):
         self.tuple_encoderH = Tuple_Encoder(
             khd=kernel_hidden_dim,
             D=D,
-            multiplicative=True,
         )
         self.tuple_encoderW = Tuple_Encoder(
             khd=kernel_hidden_dim,
             D=D,
-            multiplicative=True,
         )
         self.channel_bias = nn.Parameter(torch.randn(channels, D))
         self.channels = channels
@@ -119,11 +84,8 @@ class Encoder(nn.Module):
         H = self.tuple_encoderH(X=X, T=T)
         W = self.tuple_encoderW(X=X, T=T)
         W = W - (~M.unsqueeze(-1) * 10e9)
-        # my experiments hint that this line is useless.
-        # weights = weights - ((weights < 0) * 10e9)
         W = W.softmax(dim=1)
         channel_mask = M.sum(1) > 0
-        # weights = weights * (weights > 0.1)
         # z: BS x C x KD
         aggregated_channels = ((H * W).sum(1)) * channel_mask.unsqueeze(-1)
         z = torch.zeros_like(aggregated_channels)

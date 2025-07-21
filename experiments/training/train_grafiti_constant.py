@@ -249,5 +249,7 @@ for epoch in range(1, ARGS.epochs + 1):
         print(f"best_val_loss: {best_val_loss.item()},  test_loss: {test_loss.item()}")
         test_mae = torch.sum(torch.Tensor(mae_list).to(DEVICE) / count)
         print(f"test_mae: {test_mae.item()}")
+        num_params = sum(p.numel() for p in MODEL.parameters() if p.requires_grad)
+        print(f"Number of trainable parameters: {num_params}")
         print()
         break

@@ -11,9 +11,8 @@ from random import SystemRandom
 
 import numpy as np
 import torch
-from torch import Tensor, jit
-
 from models.grafiti.gratif import tsdm_collate
+from torch import Tensor, jit
 from utils import IMTS_dataset, get_data_loaders
 
 # fmt: off
@@ -267,5 +266,6 @@ for epoch in range(1, ARGS.epochs + 1):
         print(f"best_val_loss: {best_val_loss.item()},  test_loss: {test_loss.item()}")
         test_mae = torch.sum(torch.Tensor(mae_list).to(DEVICE) / count)
         print(f"test_mae: {test_mae.item()}")
-        print()
+        num_params = sum(p.numel() for p in MODEL.parameters() if p.requires_grad)
+        print(f"Number of trainable parameters: {num_params}")
         break

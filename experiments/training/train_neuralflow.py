@@ -350,4 +350,6 @@ for epoch in range(ARGS.epochs):
         print(f"best_val_loss: {best_val_loss.item()}, test_loss: {test_loss.item()}")
         print(f"test_mae: {test_mae.item()}")
         print(f"avg_epoch_time: {np.mean(E_times)}")
+        num_params = sum(p.numel() for p in MODEL.parameters() if p.requires_grad)
+        print(f"Number of trainable parameters: {num_params}")
         break

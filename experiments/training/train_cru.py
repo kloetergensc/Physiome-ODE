@@ -277,6 +277,8 @@ if __name__ == "__main__":
     # pdb.set_trace()
     # train_dl, valid_dl = load_data(args)
     model = load_model(args, input_dim)
+    num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f"Number of trainable parameters: {num_params}")
     logger.info(f"parameters: {count_parameters(model)}")
     model.train(
         train_dl=TRAIN_LOADER,
