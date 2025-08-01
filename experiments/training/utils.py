@@ -141,6 +141,6 @@ def get_data_loaders(path, fold, batch_size, collate_fn):
         valid_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn
     )
     TEST_LOADER = DataLoader(
-        test_dataset, batch_size=batch_size, shuffle=False, collate_fn=collate_fn
+        test_dataset, batch_size=32, shuffle=False, collate_fn=collate_fn
     )
     return TRAIN_LOADER, VALID_LOADER, TEST_LOADER

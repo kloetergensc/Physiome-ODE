@@ -24,7 +24,7 @@ parser.add_argument("-e",  "--epochs",       default=1000,    type=int,   help="
 parser.add_argument("-es",  "--early-stop",  default=10,    type=int,   help="early stop patience")
 parser.add_argument("-f",  "--fold",         default=0,      type=int,   help="fold number")
 parser.add_argument("-bs", "--batch-size",   default=64,     type=int,   help="batch-size")
-parser.add_argument("--lr",  default=0.0001,  type=float, help="learn-rate")
+parser.add_argument("--lr",  default=1e-3,  type=float, help="learn-rate")
 parser.add_argument("-b",  "--betas", default=(0.9, 0.999),  type=float, help="adam betas", nargs=2)
 parser.add_argument("-wd", "--weight-decay", default=0.0001,  type=float, help="weight-decay")
 parser.add_argument("-n",  "--note",         default="",     type=str,   help="Note that can be added")
@@ -55,7 +55,7 @@ parser.add_argument(
     "-ps", "--patch_size", type=float, default=0.1, help="window size for a patch"
 )
 parser.add_argument(
-    "--stride", type=float, default=0.1, help="period stride for patch sliding"
+    "--stride", type=float, default=-1, help="period stride for patch sliding"
 )
 # fmt: on
 
@@ -68,6 +68,9 @@ print(ARGS, experiment_id)
 torch.manual_seed(ARGS.fold)
 random.seed(ARGS.fold)
 np.random.seed(ARGS.fold)
+
+if ARGS.stride == -1:
+    ARGS.stride = ARGS.patch_size
 
 
 import yaml
@@ -176,9 +179,6 @@ OPTIMIZER = AdamW(
     lr=ARGS.lr,
     weight_decay=ARGS.weight_decay,
 )
-scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-    OPTIMIZER, "min", patience=10, factor=0.5, min_lr=0.00001, verbose=True
-)
 ovr_start_time = time.time()
 es = False
 best_val_loss = 10e8
@@ -238,7 +238,6 @@ for epoch in range(1, ARGS.epochs + 1):
             f"Early stopping because of no improvement in val. metric for {ARGS.early_stop} epochs"
         )
         es = True
-    scheduler.step(val_loss)
 
     # LOGGER.log_epoch_end(epoch)
     if (epoch == ARGS.epochs) or (es == True):

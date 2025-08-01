@@ -26,7 +26,7 @@ parser.add_argument("-f",  "--fold",         default=0,      type=int,   help="f
 parser.add_argument("-bs", "--batch-size",   default=64,     type=int,   help="batch-size")
 parser.add_argument("--lr",  default=0.001,  type=float, help="learn-rate")
 parser.add_argument("-b",  "--betas", default=(0.9, 0.999),  type=float, help="adam betas", nargs=2)
-parser.add_argument("-wd", "--weight-decay", default=0.0,  type=float, help="weight-decay")
+parser.add_argument("-wd", "--weight-decay", default=0.0001,  type=float, help="weight-decay")
 parser.add_argument("-n",  "--note",         default="",     type=str,   help="Note that can be added")
 parser.add_argument("-fh", "--forc-time", default=0.5, type=float, help="forecast horizon [0,1]")
 parser.add_argument("-ot", "--observation-time", default=0.5, type=float, help="conditioning range [0,1]")
@@ -36,7 +36,7 @@ parser.add_argument("-dset", "--dataset", default ="borghans_dupont_goldbeter_19
 parser.add_argument("--model", type=str, default="timeCHEAT", help="Model name")
 
 
-parser.add_argument("-rf", "--reference-points", default=96, type=int)
+parser.add_argument("-rf", "--reference-points", default=128, type=int)
 parser.add_argument("-pa", "--patch", default=8, type=int)
 parser.add_argument(
     "-pm", "--patch-mode", default="manner", type=str, choices=["manner", "auto"]
