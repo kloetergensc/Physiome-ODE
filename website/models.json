@@ -7,7 +7,9 @@
       "family": "Neural ODE",
       "reference": "De Brouwer et al., NeurIPS 2019",
       "code": "experiments/training/models/gruodebayes",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 0
     },
     {
       "name": "LinODENet",
@@ -15,7 +17,9 @@
       "family": "Linear latent ODE",
       "reference": "Scholz et al., 2022 (preprint)",
       "code": "experiments/training/models/linodenet",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 2
     },
     {
       "name": "CRU",
@@ -23,7 +27,9 @@
       "family": "Continuous state space",
       "reference": "Schirmer et al., ICML 2022",
       "code": "experiments/training/models/cru",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 3
     },
     {
       "name": "Neural Flows",
@@ -31,7 +37,9 @@
       "family": "Neural flow",
       "reference": "Biloš et al., NeurIPS 2021",
       "code": "experiments/training/models/neuralflow",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 4
     },
     {
       "name": "GraFITi",
@@ -39,7 +47,9 @@
       "family": "Graph network",
       "reference": "Yalavarthi et al., AAAI 2024",
       "code": "experiments/training/models/grafiti",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 5
     },
     {
       "name": "GraFITi-C",
@@ -47,7 +57,39 @@
       "family": "Constant baseline",
       "reference": "GraFITi, same forecast at every query time",
       "code": "experiments/training/train_grafiti_constant.py",
-      "status": "paper"
+      "status": "paper",
+      "source": "Physiome-ODE paper (ICLR 2025)",
+      "slot": 6
+    },
+    {
+      "name": "IMTS-Mixer",
+      "results": "imts_mixer.csv",
+      "family": "MLP mixer",
+      "reference": "Klötergens et al., 2025 (preprint)",
+      "code": "experiments/training/models/imts_mixer",
+      "status": "paper",
+      "source": "IMTS-Mixer paper (arXiv:2502.11816), Table 6",
+      "slot": 1
+    },
+    {
+      "name": "TimeCHEAT",
+      "results": "timecheat.csv",
+      "family": "Patch graph + transformer",
+      "reference": "Liu et al., AAAI 2025",
+      "code": "experiments/training/models/timecheat",
+      "status": "paper",
+      "source": "IMTS-Mixer paper (arXiv:2502.11816), Table 6",
+      "slot": 7
+    },
+    {
+      "name": "tPatchGNN",
+      "results": "tpatchgnn.csv",
+      "family": "Patch graph network",
+      "reference": "Zhang et al., ICML 2024",
+      "code": "experiments/training/models/tpatchgnn",
+      "status": "paper",
+      "source": "IMTS-Mixer paper (arXiv:2502.11816), Table 6",
+      "slot": 8
     }
   ]
 }

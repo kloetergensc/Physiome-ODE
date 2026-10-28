@@ -1,7 +1,7 @@
 """Build the leaderboard data for the website (and optionally the README table).
 
 Inputs
-    website/models.json       model metadata, in the order the site assigns colors
+    website/models.json       model metadata; "slot" fixes each model's color (1-8, 0 = neutral gray)
     website/datasets.csv      short dataset ids (DUP01, ...) for the 50 benchmark datasets
     website/results/*.csv     one file per model, either
                                 dataset,fold,test_mse        (one row per dataset and fold), or
@@ -34,6 +34,7 @@ README_START = "<!-- leaderboard:start -->"
 README_END = "<!-- leaderboard:end -->"
 STATUSES = {"paper", "verified", "self-reported"}
 N_FOLDS = 5
+MAX_SLOT = 8  # validated categorical colors on the page; slot 0 is neutral gray
 
 
 def warn(msg):
@@ -106,10 +107,16 @@ def build():
             "ref": m["reference"],
             "code": f"{REPO_URL}/{kind}/main/{m['code']}",
             "status": m["status"],
+            "source": m.get("source", ""),
+            "slot": m["slot"],
         })
         results[m["name"]] = res
     if cfg["anchor"] not in results:
         raise SystemExit(f"anchor model {cfg['anchor']} has no complete results")
+    slots = [m["slot"] for m in cfg["models"]]
+    taken = [s for s in slots if s != 0]
+    if any(not isinstance(s, int) or not 0 <= s <= MAX_SLOT for s in slots) or len(taken) != len(set(taken)):
+        raise SystemExit(f"models.json: each slot must be a distinct integer 1-{MAX_SLOT}, or 0 for neutral gray")
     for d in datasets:
         d["res"] = {m["name"]: results[m["name"]][d["model"]] for m in models}
     return {

@@ -188,7 +188,7 @@
         <div class="lanes" id="ex-lanes"></div>
         <div class="ex-foot">
           <button type="button" class="btn" id="ex-more" hidden>Show all channels</button>
-          <p class="note">Each click draws one of the first 12 instances of the dataset, regenerated with the benchmark's seeds and solver settings, then applies a fresh noise draw (σ = 0.05 on z-scored values) and keeps each value with probability 0.1. Channels are ordered by their JGD score.</p>
+          <p class="note">Each click draws one of the first 12 instances of the dataset, regenerated with the benchmark's seeds and solver settings, then applies a fresh noise draw (σ = 0.05 on z-scored values) and keeps each value with probability 0.2, as in the benchmark. Channels are ordered by their JGD score.</p>
         </div>
       </div>
       <div class="two">
@@ -198,7 +198,7 @@
           <dl class="params">
             <div><dt>Time grid</dt><dd>100 steps</dd></div>
             <div><dt>Observed / forecast</dt><dd>first 50% / next 50%</dd></div>
-            <div><dt>Values kept</dt><dd>10% per channel</dd></div>
+            <div><dt>Values kept</dt><dd>20%, drawn per value</dd></div>
             <div><dt>Noise</dt><dd>σ = 0.05, z-scored</dd></div>
             <div><dt>Initial-state spread</dt><dd>σ_states ∈ {0.1, 0.3, 0.5}</dd></div>
             <div><dt>Constant spread</dt><dd>σ_const ∈ {0.05, 0.1, 0.3}</dd></div>
@@ -273,7 +273,7 @@ dupont_1991a,1,0.957</pre>
         </li>
       </ol>
       <div class="statuses">
-        <div><span class="badge">Paper</span>reported in the Physiome-ODE paper</div>
+        <div><span class="badge">Paper</span>reported in a paper by the benchmark authors (hover a badge for the source)</div>
         <div><span class="badge ver">Verified</span>submitted and reproduced by maintainers</div>
         <div><span class="badge self">Self-reported</span>submitted, not yet reproduced</div>
       </div>

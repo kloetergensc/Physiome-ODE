@@ -4,7 +4,7 @@ Instances are produced exactly like data_creation/generate.py does for the final
 (generate_benchmark.py: T/2, N_t=100, random start, same seeds and lsoda settings), so instance n
 here is instance n of the released data, up to solver and library versions. Values are z-scored
 with the observation-window statistics of the generated instances; the page adds the benchmark's
-noise and 10% sampling mask in the browser on every "Sample" click.
+noise and 20% sampling mask in the browser on every "Sample" click.
 
 Usage (from the repository root, in the training environment):
     python website/generate_samples.py                 # all 50 datasets, 12 instances each

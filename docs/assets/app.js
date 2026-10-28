@@ -5,8 +5,8 @@
   // Hero figure: a smooth endocrine oscillator that shows the forecasting task at a glance.
   var HERO = { id: 'LEN01', instance: 3, seed: 41 };
   var EXPLORER_DEFAULT = 'LI01';
-  // The categorical palette has 8 validated slots; models past the 8th are drawn in a neutral tone.
-  var MAX_SLOTS = 8;
+  // Colors come from each model's "slot" in website/models.json: 1-8 are the validated categorical
+  // palette, 0 is a neutral tone (used for the Elo reference model).
   var STATUS = { paper: ['Paper', 'badge'], verified: ['Verified', 'badge ver'], 'self-reported': ['Self-reported', 'badge self'] };
 
   function getJSON(url) {
@@ -27,7 +27,7 @@
   function init(RAW) {
     var INFO = {};
     RAW.models.forEach(function (m, i) {
-      INFO[m.name] = { slot: i < MAX_SLOTS ? i + 1 : 0, family: m.family, ref: m.ref, code: m.code, status: m.status };
+      INFO[m.name] = { slot: m.slot || 0, family: m.family, ref: m.ref, code: m.code, status: m.status, source: m.source };
     });
     var MODELS = RAW.models.map(function (m) { return m.name; });
     var K = MODELS.length;
@@ -159,7 +159,7 @@
           '<td class="num">' + m.rank.toFixed(2) + '</td>' +
           '<td class="num">' + m.wins + '<span class="of"> / ' + st.n + '</span></td>' +
           '<td class="num">' + m.imp.toFixed(1) + '%</td>' +
-          '<td><span class="' + (STATUS[inf.status] || STATUS['self-reported'])[1] + '">' + (STATUS[inf.status] || STATUS['self-reported'])[0] + '</span></td>' +
+          '<td><span class="' + (STATUS[inf.status] || STATUS['self-reported'])[1] + '"' + (inf.source ? ' title="Results: ' + esc(inf.source) + '"' : '') + '>' + (STATUS[inf.status] || STATUS['self-reported'])[0] + '</span></td>' +
           '</tr>';
       }).join('');
       document.querySelectorAll('.lb th[data-key]').forEach(function (th) {
@@ -524,7 +524,7 @@
     var DS_BY_ID = {};
     D.forEach(function (d, i) { DS_BY_ID[d.id] = i; });
     var SAMPLES = {};
-    var KEEP = 0.1, NOISE = 0.05, LANE_LIMIT = 6;
+    var KEEP = 0.2, NOISE = 0.05, LANE_LIMIT = 6;
 
     function fmtScore(x) { return x < 1e-4 ? '< 0.0001' : fmtJ(x); }
     function fmtT(x) { return x === 0 ? '0' : x >= 10 ? x.toFixed(1) : x >= 1 ? x.toFixed(2) : x.toPrecision(2); }
@@ -534,7 +534,7 @@
     }
     function reduceMotion() { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 
-    // What a model sees for one instance: fresh noise on the z-scored values and an independent 10% keep-mask per value.
+    // What a model sees for one instance: fresh noise on the z-scored values and an independent 20% keep-mask per value (80% of observations are dropped).
     function drawInstance(sample, inst, seed) {
       var rng = mulberry32(seed);
       function gauss() { var u = 1 - rng(), v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
@@ -597,7 +597,7 @@
       $('hero-lanes').innerHTML = byScore(h).slice(0, 3).map(function (c, k) {
         return laneSVG(h, inst, c, drawn, { w: 600, h: k === 0 ? 134 : 110, top: k === 0 ? 30 : 6, split: k === 0, truth: true, label: h.channels[c].name });
       }).join('');
-      $('hero-cap').innerHTML = '<strong>' + esc(h.id) + '</strong> (<span class="mono">' + esc(h.model) + '</span>), benchmark instance ' + h.instances[inst] + ', with the benchmark’s 10% sampling and σ = 0.05 noise.';
+      $('hero-cap').innerHTML = '<strong>' + esc(h.id) + '</strong> (<span class="mono">' + esc(h.model) + '</span>), benchmark instance ' + h.instances[inst] + ', with the benchmark’s 20% sampling and σ = 0.05 noise.';
     }
 
     var ex = { id: null, inst: 0, seed: 1, all: false, truth: true, data: null };

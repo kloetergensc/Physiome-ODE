@@ -31,9 +31,10 @@ docs/                        what GitHub Pages serves; only the scripts write da
    the rounded means and standard deviations from the paper are available. For fold files the script reports
    the mean and the sample standard deviation over folds.
 
-2. Add an entry to `website/models.json` (`name`, `results`, `family`, `reference`, `code`, and `status`:
-   `paper`, `verified` or `self-reported`). New models go at the end so existing models keep their colors.
-   The palette has 8 slots; a 9th model is drawn in a neutral gray, so decide on a scheme before then.
+2. Add an entry to `website/models.json` (`name`, `results`, `family`, `reference`, `code`, `source`, `slot`,
+   and `status`: `paper`, `verified` or `self-reported`). `slot` fixes the model's color: 1-8 are the page's
+   validated categorical colors (each used once), 0 is neutral gray, currently used for the Elo reference
+   model. All 8 colors are taken, so a 10th model needs a decision, e.g. a second gray model or coloring by family.
 
 3. Rebuild and check:
 
