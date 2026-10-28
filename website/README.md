@@ -5,10 +5,10 @@ Nothing runs on a server: the page loads JSON files and computes every statistic
 
 ```
 website/                     sources, edited by hand
-  models.json                model metadata; list order fixes each model's color
+  models.json                model metadata; "slot" fixes each model's color
   datasets.csv               short ids (DUP01, ...) for the 50 datasets
   results/<model>.csv        one results file per model
-  build_leaderboard.py       -> docs/data/results.json (+ README table)
+  build_leaderboard.py       -> docs/data/results.json
   generate_samples.py        -> docs/samples/<id>.json
 docs/                        what GitHub Pages serves; only the scripts write data/ and samples/
   index.html, assets/        page, styles, script, self-hosted fonts
@@ -39,13 +39,16 @@ docs/                        what GitHub Pages serves; only the scripts write da
 3. Rebuild and check:
 
    ```
-   python website/build_leaderboard.py --readme
+   python website/build_leaderboard.py
    ```
 
    A model that is missing any of the 50 datasets is left out, with a warning. The script uses only the
    standard library.
 
-4. Commit `website/`, `docs/data/results.json` and `README.md`. GitHub Pages redeploys within a minute or two.
+4. Add a dated line to the leaderboard updates in the main `README.md`, so readers comparing the site with a
+   paper know what changed.
+
+5. Commit `website/`, `docs/data/results.json` and `README.md`. GitHub Pages redeploys within a minute or two.
 
 ## Dataset samples
 

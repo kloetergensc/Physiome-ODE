@@ -1,4 +1,4 @@
-"""Build the leaderboard data for the website (and optionally the README table).
+"""Build the leaderboard data for the website.
 
 Inputs
     website/models.json       model metadata; "slot" fixes each model's color (1-8, 0 = neutral gray)
@@ -12,8 +12,7 @@ Output
     docs/data/results.json    everything the page needs; all statistics are computed in the browser
 
 Usage
-    python website/build_leaderboard.py            # write docs/data/results.json
-    python website/build_leaderboard.py --readme   # also rewrite the leaderboard table in README.md
+    python website/build_leaderboard.py
 
 Only the standard library is used, so this runs anywhere (including CI) without the training environment.
 """
@@ -30,8 +29,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "website"
 REPO_URL = "https://github.com/kloetergensc/Physiome-ODE"
-README_START = "<!-- leaderboard:start -->"
-README_END = "<!-- leaderboard:end -->"
 STATUSES = {"paper", "verified", "self-reported"}
 N_FOLDS = 5
 MAX_SLOT = 8  # validated categorical colors on the page; slot 0 is neutral gray
@@ -127,52 +124,12 @@ def build():
     }
 
 
-def readme_tables(data):
-    names = [m["name"] for m in data["models"]]
-    lines = [
-        "| Dataset | JGD | " + " | ".join(names) + " |",
-        "|:--|--:|" + ":--|" * len(names),
-    ]
-    wins = dict.fromkeys(names, 0)
-    ranks = {n: [] for n in names}
-    for d in data["datasets"]:
-        mse = {n: d["res"][n][0] for n in names}
-        best = min(mse.values())
-        cells = []
-        for n in names:
-            cell = f"{mse[n]:.3f}± {d['res'][n][1]:.3f}"
-            if mse[n] == best:
-                cell, wins[n] = f"**{cell}**", wins[n] + 1
-            cells.append(cell)
-            ranks[n].append(1 + sum(v < mse[n] for v in mse.values()))
-        lines.append(f"| {d['id']} | {d['jgd']:.6g} | " + " | ".join(cells) + " |")
-    lines += [
-        "",
-        "| | " + " | ".join(names) + " |",
-        "| -- |" + " --- |" * len(names),
-        "|# Wins | " + " | ".join(str(wins[n]) for n in names) + " |",
-        "|Avg. Rank | " + " | ".join(f"{statistics.fmean(ranks[n]):.2f}" for n in names) + " |",
-    ]
-    return "\n".join(lines)
-
-
 def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--readme", action="store_true", help="also rewrite the leaderboard table in README.md")
-    args = ap.parse_args()
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     data = build()
     out = ROOT / "docs" / "data" / "results.json"
     out.write_text(json.dumps(data, separators=(",", ":"), ensure_ascii=False))
     print(f"wrote {out.relative_to(ROOT)}: {len(data['models'])} models, {len(data['datasets'])} datasets")
-    if args.readme:
-        readme = ROOT / "README.md"
-        text = readme.read_text()
-        if README_START not in text or README_END not in text:
-            raise SystemExit(f"README.md needs {README_START} and {README_END} around the table")
-        head, rest = text.split(README_START, 1)
-        _, tail = rest.split(README_END, 1)
-        readme.write_text(f"{head}{README_START}\n{readme_tables(data)}\n{README_END}{tail}")
-        print("rewrote the leaderboard table in README.md")
 
 
 if __name__ == "__main__":
