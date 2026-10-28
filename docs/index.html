@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Physiome-ODE Leaderboard</title>
+<meta name="description" content="Leaderboard for Physiome-ODE, a benchmark of 50 irregularly sampled multivariate time-series forecasting datasets built from biological ODE models.">
+<meta property="og:title" content="Physiome-ODE Leaderboard">
+<meta property="og:description" content="Elo ranking, per-dataset results and dataset samples for the Physiome-ODE benchmark (ICLR 2025).">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+<header class="mast">
+  <div class="wrap mast-inner">
+    <a class="wordmark" href="#top">Physiome-ODE<span>leaderboard v1</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#per-dataset">Per dataset</a>
+      <a href="#explore">Explore datasets</a>
+      <a href="#scoring">Scoring</a>
+      <a href="#submit">Submit a model</a>
+      <a href="#cite">Cite</a>
+    </nav>
+    <div class="mast-links">
+      <a class="btn" href="https://openreview.net/forum?id=6ouZaBzeNO">Paper</a>
+      <a class="btn" href="https://github.com/kloetergensc/Physiome-ODE">GitHub</a>
+      <a class="btn" href="https://zenodo.org/records/11492058">Data on Zenodo</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Benchmark · irregular time series</p>
+      <h1>Physiome-ODE</h1>
+      <p class="lede">A leaderboard for forecasting irregularly sampled multivariate time series. Every dataset comes from a published biological ODE model in the Physiome Model Repository, so the ground truth is a real physiological system.</p>
+      <dl class="facts">
+        <div><dt>datasets</dt><dd id="fact-datasets">50</dd></div>
+        <div><dt>physiological domains</dt><dd id="fact-domains">12</dd></div>
+        <div><dt>channels per dataset</dt><dd id="fact-channels">2–56</dd></div>
+        <div><dt>models evaluated</dt><dd id="fact-models">6</dd></div>
+      </dl>
+      <div class="hero-actions">
+        <a class="btn primary" href="#leaderboard">See the ranking</a>
+        <a class="btn" href="#submit">Submit a model</a>
+      </div>
+    </div>
+    <figure class="scope">
+      <div class="hero-lanes" id="hero-lanes"></div>
+      <figcaption>
+        <span class="key"><i class="k-obs"></i>observed</span>
+        <span class="key"><i class="k-tgt"></i>to forecast</span>
+        <p id="hero-cap"></p>
+        <a class="btn" href="#explore">Sample any dataset</a>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="rail" id="rail">
+    <div class="wrap rail-inner">
+      <div class="ctl">
+        <span class="ctl-label" id="lbl-tier">Complexity</span>
+        <div class="seg" role="group" aria-labelledby="lbl-tier" data-ctl="tier">
+          <button type="button" data-v="all" aria-pressed="true">All</button>
+          <button type="button" data-v="high" aria-pressed="false">High JGD</button>
+          <button type="button" data-v="mid" aria-pressed="false">Medium</button>
+          <button type="button" data-v="low" aria-pressed="false">Low</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="ctl-label" for="f-domain">Domain</label>
+        <select id="f-domain"></select>
+      </div>
+      <div class="ctl">
+        <span class="ctl-label" id="lbl-ch">Channels</span>
+        <div class="seg" role="group" aria-labelledby="lbl-ch" data-ctl="ch">
+          <button type="button" data-v="all" aria-pressed="true">All</button>
+          <button type="button" data-v="lo" aria-pressed="false">2–5</button>
+          <button type="button" data-v="hi" aria-pressed="false">6–56</button>
+        </div>
+      </div>
+      <p class="slice-summary" id="slice-summary" aria-live="polite"></p>
+      <button type="button" class="reset" id="reset" hidden>Reset</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section id="leaderboard">
+      <div class="sec-head">
+        <div>
+          <h2>Leaderboard</h2>
+          <p>Models ranked by Elo from head-to-head comparisons on each dataset. Narrow the slice above and every number on this page is recomputed for those datasets.</p>
+        </div>
+      </div>
+      <div class="fig elo-fig">
+        <h3>Elo rating</h3>
+        <p class="sub">Best first. Whiskers show the 95% bootstrap interval over the datasets in the slice.</p>
+        <div id="elo-chart" class="elo-chart"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="lb">
+          <thead>
+            <tr>
+              <th scope="col" class="c-pos">#</th>
+              <th scope="col">Model</th>
+              <th scope="col">Type</th>
+              <th scope="col" data-key="elo"><button class="sort" type="button" data-sort="elo">Elo <span class="hint">95% CI</span></button></th>
+              <th scope="col" class="num" data-key="rank"><button class="sort" type="button" data-sort="rank">Avg. rank</button></th>
+              <th scope="col" class="num" data-key="wins"><button class="sort" type="button" data-sort="wins">Wins</button></th>
+              <th scope="col" class="num" data-key="imp"><button class="sort" type="button" data-sort="imp">Improvability</button></th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="lb-body"><tr><td colspan="8" class="empty">Loading results…</td></tr></tbody>
+        </table>
+      </div>
+      <p class="note">Elo is a Bradley–Terry fit with GRU-ODE-Bayes fixed at 1000. Intervals come from 300 bootstrap resamples of the datasets in the slice. Wins count a tie for every tied model. Lower is better for average rank and improvability.</p>
+
+      <div class="figs">
+        <div class="fig">
+          <h3>Head-to-head win rate</h3>
+          <p class="sub">Share of datasets where the row model has lower MSE than the column model.</p>
+          <div class="matrix-box" id="matrix"></div>
+          <div class="div-legend"><span>row loses</span><span class="bar"></span><span>row wins</span></div>
+        </div>
+        <div class="fig">
+          <h3>Where each model ranks as complexity grows</h3>
+          <p class="sub">Datasets in the slice split into equal-size groups by JGD, low to high (median JGD on the axis). Average rank per group, 1 is best.</p>
+          <div class="multiples" id="multiples"></div>
+          <details class="twin">
+            <summary>Show as table</summary>
+            <div class="tbl-wrap" id="trend-table"></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="per-dataset">
+      <div class="sec-head">
+        <div>
+          <h2>Results per dataset</h2>
+          <p>Test MSE, mean ± standard deviation over five folds. Click a column to sort, or a dataset to see samples of it.</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="ctl">
+          <span class="ctl-label" id="lbl-view">Show</span>
+          <div class="seg" role="group" aria-labelledby="lbl-view" data-ctl="view">
+            <button type="button" data-v="mse" aria-pressed="true">MSE ± std</button>
+            <button type="button" data-v="ratio" aria-pressed="false">Relative to best</button>
+          </div>
+        </div>
+        <span class="shade-key"><span class="ramp"></span>Shading: how close a model is to the best MSE on that dataset. Bold: best.</span>
+      </div>
+      <div class="tbl-wrap" id="ds-table"></div>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section id="datasets">
+      <div class="sec-head">
+        <div>
+          <h2>The datasets</h2>
+          <p>Fifty ODE models picked from the Physiome Model Repository for how varied their dynamics are. Pick one and sample instances the way the benchmark builds them.</p>
+        </div>
+      </div>
+      <div class="explorer" id="explore">
+        <div class="ex-controls">
+          <div class="ctl">
+            <label class="ctl-label" for="ex-ds">Dataset</label>
+            <select id="ex-ds"></select>
+          </div>
+          <button type="button" class="btn primary" id="ex-sample">Sample</button>
+          <label class="check" for="ex-truth"><input type="checkbox" id="ex-truth" checked> Ground truth</label>
+          <div class="ex-keys">
+            <span class="key"><i class="k-obs"></i>observed</span>
+            <span class="key"><i class="k-tgt"></i>to forecast</span>
+            <span class="key"><i class="k-win"></i>forecast window</span>
+          </div>
+        </div>
+        <dl class="ex-meta" id="ex-meta"></dl>
+        <p class="ex-status" id="ex-status" aria-live="polite"></p>
+        <div class="lanes" id="ex-lanes"></div>
+        <div class="ex-foot">
+          <button type="button" class="btn" id="ex-more" hidden>Show all channels</button>
+          <p class="note">Each click draws one of the first 12 instances of the dataset, regenerated with the benchmark's seeds and solver settings, then applies a fresh noise draw (σ = 0.05 on z-scored values) and keeps each value with probability 0.1. Channels are ordered by their JGD score.</p>
+        </div>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <p>Each Physiome model is a set of coupled ODEs, often written for one paper about one cell type or organ. We simulate many trajectories per model, varying the initial states and the model constants, then turn them into an irregular forecasting task.</p>
+          <p><strong>JGD</strong> (joint gradient deviation) scores how much a channel's increments vary along each trajectory and across trajectories, averaged over the ten highest-scoring channels. High JGD means varied, fast-changing dynamics. The complexity filter splits the 50 datasets into thirds by JGD.</p>
+          <dl class="params">
+            <div><dt>Time grid</dt><dd>100 steps</dd></div>
+            <div><dt>Observed / forecast</dt><dd>first 50% / next 50%</dd></div>
+            <div><dt>Values kept</dt><dd>10% per channel</dd></div>
+            <div><dt>Noise</dt><dd>σ = 0.05, z-scored</dd></div>
+            <div><dt>Initial-state spread</dt><dd>σ_states ∈ {0.1, 0.3, 0.5}</dd></div>
+            <div><dt>Constant spread</dt><dd>σ_const ∈ {0.05, 0.1, 0.3}</dd></div>
+          </dl>
+        </div>
+        <div>
+          <h3 class="ctl-label">Datasets per domain · click to filter</h3>
+          <div class="domains" id="domains"></div>
+          <div class="strip-box">
+            <h3 class="ctl-label">JGD of all 50 datasets · dark dots are in the current slice · click one to sample it</h3>
+            <svg id="strip" viewBox="0 0 560 150" role="img" aria-label="JGD of each dataset on a log scale, split into low, medium and high thirds."></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scoring">
+      <div class="sec-head">
+        <div>
+          <h2>How models are scored</h2>
+          <p>Four aggregates, each computed over the datasets in the current slice. They answer different questions, so the table shows all of them.</p>
+        </div>
+      </div>
+      <div class="defs">
+        <div class="def">
+          <h3>Elo</h3>
+          <p>Each dataset is one match between every pair of models; lower mean MSE wins. A Bradley–Terry model turns the matches into ratings on the chess scale.</p>
+          <code class="formula">P(i beats j) = 1 / (1 + 10^((E_j − E_i) / 400))</code>
+        </div>
+        <div class="def">
+          <h3>Average rank</h3>
+          <p>Rank 1 is the lowest mean MSE on a dataset. Tied models share the better rank, as in the paper.</p>
+          <code class="formula">rank(i) = mean_d rank_d(i)</code>
+        </div>
+        <div class="def">
+          <h3>Wins</h3>
+          <p>Datasets on which the model has the lowest mean MSE. Ties count for every tied model, so wins can add up to more than the dataset count.</p>
+          <code class="formula">wins(i) = #{ d : MSE_d(i) = min_j MSE_d(j) }</code>
+        </div>
+        <div class="def">
+          <h3>Improvability</h3>
+          <p>How much lower the best model's error is, on average. A model at 0% is the best on every dataset in the slice.</p>
+          <code class="formula">imp(i) = mean_d (MSE_d(i) − MSE*_d) / MSE_d(i)</code>
+        </div>
+      </div>
+      <p class="protocol">Every model is trained separately on each dataset and fold, with early stopping on a validation split. The reported number is test MSE on z-normalized values, averaged over five folds.</p>
+    </section>
+
+    <section id="submit">
+      <div class="sec-head">
+        <div>
+          <h2>Add your model</h2>
+          <p>The leaderboard takes new published models from the community. A submission is code plus results; maintainers rerun part of it before it counts as verified.</p>
+        </div>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Implement</h3>
+          <p>Add the model under <code>experiments/training/models/</code> with a collate function that maps our IMTS format to your input format, plus a <code>train_&lt;model&gt;.py</code> script.</p>
+        </li>
+        <li>
+          <h3>Run all 50 datasets</h3>
+          <p>Train five folds per dataset with the standard split.</p>
+          <pre>python train_&lt;model&gt;.py -dset dupont_1991b --fold 0</pre>
+        </li>
+        <li>
+          <h3>Open a pull request</h3>
+          <p>Include the code, your hyperparameters, an entry in <code>website/models.json</code>, and <code>website/results/&lt;model&gt;.csv</code> with a row per dataset and fold.</p>
+          <pre>dataset,fold,test_mse
+dupont_1991a,0,0.948
+dupont_1991a,1,0.957</pre>
+        </li>
+      </ol>
+      <div class="statuses">
+        <div><span class="badge">Paper</span>reported in the Physiome-ODE paper</div>
+        <div><span class="badge ver">Verified</span>submitted and reproduced by maintainers</div>
+        <div><span class="badge self">Self-reported</span>submitted, not yet reproduced</div>
+      </div>
+    </section>
+
+    <section id="cite">
+      <div class="sec-head">
+        <div>
+          <h2>Cite</h2>
+          <p>If you use Physiome-ODE or this leaderboard, please cite the ICLR 2025 paper (<a href="https://openreview.net/forum?id=6ouZaBzeNO">OpenReview</a>, <a href="https://arxiv.org/abs/2502.07489">arXiv:2502.07489</a>).</p>
+        </div>
+      </div>
+      <div class="cite">
+        <pre id="bibtex">@inproceedings{klotergens2025physiomeode,
+  title     = {{Physiome-ODE}: A Benchmark for Irregularly Sampled Multivariate
+               Time-Series Forecasting Based on Biological {ODEs}},
+  author    = {Kl{\"o}tergens, Christian and Yalavarthi, Vijaya Krishna and
+               Scholz, Randolf and Stubbemann, Maximilian and Born, Stefan and
+               Schmidt-Thieme, Lars},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  url       = {https://openreview.net/forum?id=6ouZaBzeNO}
+}</pre>
+        <button type="button" class="btn copy" id="copy-bib">Copy</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Physiome-ODE · Apache-2.0</span>
+    <span>Results from the ICLR 2025 paper</span>
+    <span id="updated"></span>
+    <a href="https://github.com/kloetergensc/Physiome-ODE">github.com/kloetergensc/Physiome-ODE</a>
+  </div>
+</footer>
+
+<div id="tip" role="tooltip" hidden></div>
+</body>
+</html>

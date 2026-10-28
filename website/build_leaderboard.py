@@ -1,0 +1,172 @@
+"""Build the leaderboard data for the website (and optionally the README table).
+
+Inputs
+    website/models.json       model metadata, in the order the site assigns colors
+    website/datasets.csv      short dataset ids (DUP01, ...) for the 50 benchmark datasets
+    website/results/*.csv     one file per model, either
+                                dataset,fold,test_mse        (one row per dataset and fold), or
+                                dataset,mse_mean,mse_std     (already aggregated)
+    resources/Top50_final.csv dataset metadata (domain, JGD, channels, ...)
+
+Output
+    docs/data/results.json    everything the page needs; all statistics are computed in the browser
+
+Usage
+    python website/build_leaderboard.py            # write docs/data/results.json
+    python website/build_leaderboard.py --readme   # also rewrite the leaderboard table in README.md
+
+Only the standard library is used, so this runs anywhere (including CI) without the training environment.
+"""
+
+import argparse
+import csv
+import datetime
+import json
+import statistics
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+WEB = ROOT / "website"
+REPO_URL = "https://github.com/kloetergensc/Physiome-ODE"
+README_START = "<!-- leaderboard:start -->"
+README_END = "<!-- leaderboard:end -->"
+STATUSES = {"paper", "verified", "self-reported"}
+N_FOLDS = 5
+
+
+def warn(msg):
+    print(f"warning: {msg}", file=sys.stderr)
+
+
+def load_datasets():
+    ids = {r["dataset"]: r["id"] for r in csv.DictReader(open(WEB / "datasets.csv"))}
+    datasets = []
+    for r in csv.DictReader(open(ROOT / "resources" / "Top50_final.csv")):
+        if r["model"] not in ids:
+            raise SystemExit(f"datasets.csv has no id for {r['model']}")
+        datasets.append({
+            "id": ids[r["model"]],
+            "model": r["model"],
+            "domain": r["domain"],
+            "jgd": float(r["high_score"]),
+            "channels": int(r["channel"]),
+            "constants": int(r["constants"]),
+            "T": float(r["T"]),
+            "ds": float(r["d_states"]),
+            "dc": float(r["d_constants"]),
+            "unit": r["Time Unit"],
+        })
+    datasets.sort(key=lambda d: -d["jgd"])
+    return datasets
+
+
+def load_results(path, names):
+    rows = list(csv.DictReader(open(path)))
+    cols = set(rows[0]) if rows else set()
+    out = {}
+    if {"dataset", "fold", "test_mse"} <= cols:
+        folds = defaultdict(list)
+        for r in rows:
+            folds[r["dataset"]].append(float(r["test_mse"]))
+        for d, v in folds.items():
+            if len(v) != N_FOLDS:
+                warn(f"{path.name}: {d} has {len(v)} folds, expected {N_FOLDS}")
+            sd = statistics.stdev(v) if len(v) > 1 else 0.0
+            out[d] = [float(f"{statistics.fmean(v):.6g}"), float(f"{sd:.6g}")]
+    elif {"dataset", "mse_mean", "mse_std"} <= cols:
+        for r in rows:
+            out[r["dataset"]] = [float(r["mse_mean"]), float(r["mse_std"])]
+    else:
+        raise SystemExit(f"{path}: expected columns dataset,fold,test_mse or dataset,mse_mean,mse_std")
+    unknown = sorted(set(out) - names)
+    if unknown:
+        raise SystemExit(f"{path}: unknown datasets {unknown}")
+    return out
+
+
+def build():
+    cfg = json.load(open(WEB / "models.json"))
+    datasets = load_datasets()
+    names = {d["model"] for d in datasets}
+    models, results = [], {}
+    for m in cfg["models"]:
+        if m["status"] not in STATUSES:
+            raise SystemExit(f"{m['name']}: status must be one of {sorted(STATUSES)}")
+        res = load_results(WEB / "results" / m["results"], names)
+        missing = sorted(names - set(res))
+        if missing:
+            warn(f"{m['name']} is missing {len(missing)} of {len(names)} datasets and is left out: {missing[:5]}...")
+            continue
+        kind = "blob" if m["code"].endswith(".py") else "tree"
+        models.append({
+            "name": m["name"],
+            "family": m["family"],
+            "ref": m["reference"],
+            "code": f"{REPO_URL}/{kind}/main/{m['code']}",
+            "status": m["status"],
+        })
+        results[m["name"]] = res
+    if cfg["anchor"] not in results:
+        raise SystemExit(f"anchor model {cfg['anchor']} has no complete results")
+    for d in datasets:
+        d["res"] = {m["name"]: results[m["name"]][d["model"]] for m in models}
+    return {
+        "generated": datetime.date.today().isoformat(),
+        "anchor": cfg["anchor"],
+        "models": models,
+        "datasets": datasets,
+    }
+
+
+def readme_tables(data):
+    names = [m["name"] for m in data["models"]]
+    lines = [
+        "| Dataset | JGD | " + " | ".join(names) + " |",
+        "|:--|--:|" + ":--|" * len(names),
+    ]
+    wins = dict.fromkeys(names, 0)
+    ranks = {n: [] for n in names}
+    for d in data["datasets"]:
+        mse = {n: d["res"][n][0] for n in names}
+        best = min(mse.values())
+        cells = []
+        for n in names:
+            cell = f"{mse[n]:.3f}± {d['res'][n][1]:.3f}"
+            if mse[n] == best:
+                cell, wins[n] = f"**{cell}**", wins[n] + 1
+            cells.append(cell)
+            ranks[n].append(1 + sum(v < mse[n] for v in mse.values()))
+        lines.append(f"| {d['id']} | {d['jgd']:.6g} | " + " | ".join(cells) + " |")
+    lines += [
+        "",
+        "| | " + " | ".join(names) + " |",
+        "| -- |" + " --- |" * len(names),
+        "|# Wins | " + " | ".join(str(wins[n]) for n in names) + " |",
+        "|Avg. Rank | " + " | ".join(f"{statistics.fmean(ranks[n]):.2f}" for n in names) + " |",
+    ]
+    return "\n".join(lines)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--readme", action="store_true", help="also rewrite the leaderboard table in README.md")
+    args = ap.parse_args()
+    data = build()
+    out = ROOT / "docs" / "data" / "results.json"
+    out.write_text(json.dumps(data, separators=(",", ":"), ensure_ascii=False))
+    print(f"wrote {out.relative_to(ROOT)}: {len(data['models'])} models, {len(data['datasets'])} datasets")
+    if args.readme:
+        readme = ROOT / "README.md"
+        text = readme.read_text()
+        if README_START not in text or README_END not in text:
+            raise SystemExit(f"README.md needs {README_START} and {README_END} around the table")
+        head, rest = text.split(README_START, 1)
+        _, tail = rest.split(README_END, 1)
+        readme.write_text(f"{head}{README_START}\n{readme_tables(data)}\n{README_END}{tail}")
+        print("rewrote the leaderboard table in README.md")
+
+
+if __name__ == "__main__":
+    main()
