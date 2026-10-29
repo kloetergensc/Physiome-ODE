@@ -19,13 +19,15 @@ Please cite the paper if you use it, and report problems with the model upstream
 | `configs/winners.csv` | `physiome_ode/configs/winners.csv` | none |
 | `../../train_tides.py` | `physiome_ode/run_final_folds.py` | import paths, location of `winners.csv`, default data path `../../data/final`, `-dset` alias for `--dataset` |
 | `LICENSE` | `LICENSE` | none |
+| `LICENSE-S5` | [`LICENSE`](https://github.com/lindermanlab/S5/blob/d133f4d/LICENSE) of S5, not in the TIDES repository | none |
 
 Upstream's `physiome_ode/utils.py` is this repository's `experiments/training/utils.py` with docstrings added
 (the code is identical), so the training code imports ours instead.
 
 `tides.py` adapts SSM utilities (associative scan, discretization, HiPPO initialization) from
-[S5](https://github.com/lindermanlab/S5) (Smith, Warrington and Linderman, ICLR 2023; Apache-2.0), as its
-header notes.
+[S5](https://github.com/lindermanlab/S5) (Smith, Warrington and Linderman, ICLR 2023), as its header notes.
+S5 is under the MIT License, Copyright (c) 2022 Linderman Lab; its license is included here as `LICENSE-S5`.
+The header of `tides.py`, left unchanged, gives S5's license as Apache-2.0, but S5's own `LICENSE` is MIT.
 
 ## Running
 
