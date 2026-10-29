@@ -26,6 +26,7 @@
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --radius: 6px;
+  --logo-plate: transparent; --logo-pad: 0;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -39,6 +40,7 @@
     --s9: #bb0d99; --s10: #a85e36; --s11: #8d55f8; --s12: #eb33cd;
     --s13: #136d9e; --s14: #994f77; --s15: #a716d6; --s16: #0292b0;
     --s17: #be7547; --s18: #ca0f55; --s19: #1a5cde; --s20: #16794e;
+    --logo-plate: #ffffff; --logo-pad: 6px 10px;
     color-scheme: dark;
   }
 }
@@ -53,6 +55,7 @@
   --s9: #bb0d99; --s10: #a85e36; --s11: #8d55f8; --s12: #eb33cd;
   --s13: #136d9e; --s14: #994f77; --s15: #a716d6; --s16: #0292b0;
   --s17: #be7547; --s18: #ca0f55; --s19: #1a5cde; --s20: #16794e;
+  --logo-plate: #ffffff; --logo-pad: 6px 10px;
   color-scheme: dark;
 }
 
@@ -344,6 +347,11 @@ pre { margin: 10px 0 0; background: var(--surface); border: 1px solid var(--rule
 .copy { position: absolute; top: 8px; right: 8px; }
 footer { margin-top: 56px; border-top: 1px solid var(--rule); }
 .foot { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-block: 20px 32px; font-size: 13px; color: var(--muted); }
+/* The university logo is shown unaltered; on the dark theme it sits on a white plate so its black lettering stays legible. */
+.affil { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-top: 24px; }
+.affil-logo { display: inline-flex; flex: none; background: var(--logo-plate); padding: var(--logo-pad); border-radius: var(--radius); }
+.affil-logo img { display: block; height: 48px; width: auto; }
+.affil p { font-size: 14px; color: var(--ink-2); max-width: 46em; }
 
 /* Dataset explorer */
 .explorer { border: 1px solid var(--rule); border-radius: var(--radius); background: var(--surface); padding: 18px; margin-bottom: 32px; scroll-margin-top: 84px; min-width: 0; }
