@@ -12,6 +12,12 @@ are on the website: **https://kloetergensc.github.io/Physiome-ODE/**
 The leaderboard has grown since the Physiome-ODE paper, so its rankings differ from the paper's tables.
 The per-dataset results of the models from the paper are unchanged.
 
+- **October 2026:** Added TIDES, with results from Table 8 of
+  [TIDES: Implicit Time-Awareness in Selective State Space Models](https://arxiv.org/abs/2605.09742)
+  (Soydan et al., NeurIPS 2026); its code is in `experiments/training/models/tides`. TIDES counts as
+  ODE-based: its latent state follows a linear ODE solved in closed form, as in LinODENet and CRU. The site
+  now compares five ODE-based models by default and ten in total (LinODENet: 23 wins and average rank 1.86
+  among the ODE-based models, 5 and 3.86 among all ten; TIDES: 26 and 1.64, 8 and 3.42).
 - **October 2026:** Added IMTS-Mixer, TimeCHEAT and tPatchGNN, with results from Table 6 of
   [Mixing It Up: Exploring Mixer Networks for Irregular Multivariate Time Series Forecasting](https://arxiv.org/abs/2502.11816)
   (Klötergens et al., PAKDD 2026); the Physiome-ODE results are only in the arXiv version. The site

@@ -5,8 +5,8 @@
   // Hero figure: a smooth endocrine oscillator that shows the forecasting task at a glance.
   var HERO = { id: 'LEN01', instance: 3, seed: 41 };
   var EXPLORER_DEFAULT = 'LI01';
-  // Colors come from each model's "slot" in website/models.json: 1-8 are the validated categorical
-  // palette, 0 is a neutral tone (used for the Elo reference model).
+  // Colors come from each model's "slot" in website/models.json: --s1 ... --s20 in style.css, where 1-8
+  // are the validated categorical palette; 0 is a neutral tone.
   var STATUS = { paper: ['Paper', 'badge'], verified: ['Verified', 'badge ver'], 'self-reported': ['Self-reported', 'badge self'] };
 
   // Theme: follows the system until the viewer picks one with the header button. The pick is kept in

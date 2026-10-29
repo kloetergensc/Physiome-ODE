@@ -11,7 +11,7 @@
       "code": "experiments/training/models/gruodebayes",
       "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
-      "slot": 0
+      "slot": 9
     },
     {
       "name": "LinODENet",
@@ -108,6 +108,18 @@
       "status": "paper",
       "source": "IMTS-Mixer paper, arXiv version (arXiv:2502.11816), Table 6",
       "slot": 8
+    },
+    {
+      "name": "TIDES",
+      "results": "tides.csv",
+      "family": "Selective state space",
+      "ode": true,
+      "reference": "Soydan et al., NeurIPS 2026",
+      "paper": "https://arxiv.org/abs/2605.09742",
+      "code": "experiments/training/models/tides",
+      "status": "paper",
+      "source": "TIDES paper (NeurIPS 2026; arXiv:2605.09742), Table 8",
+      "slot": 10
     }
   ]
 }

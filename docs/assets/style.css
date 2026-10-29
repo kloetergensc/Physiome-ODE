@@ -18,6 +18,10 @@
   --div-mid: #eeefec;
   --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
   --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+  /* Slots 9-20 extend the validated eight, chosen to be as far as possible from every earlier slot. */
+  --s9: #96026d; --s10: #834105; --s11: #ac77fa; --s12: #ca38b1;
+  --s13: #0c598e; --s14: #a25476; --s15: #790eae; --s16: #32a0c5;
+  --s17: #b15f1c; --s18: #c60552; --s19: #0f41cc; --s20: #0e6636;
   --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -32,6 +36,9 @@
     --seq: #3987e5; --div-pos: #3987e5; --div-neg: #e66767; --div-mid: #2a3136;
     --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
     --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --s9: #bb0d99; --s10: #a85e36; --s11: #8d55f8; --s12: #eb33cd;
+    --s13: #136d9e; --s14: #994f77; --s15: #a716d6; --s16: #0292b0;
+    --s17: #be7547; --s18: #ca0f55; --s19: #1a5cde; --s20: #16794e;
     color-scheme: dark;
   }
 }
@@ -43,6 +50,9 @@
   --seq: #3987e5; --div-pos: #3987e5; --div-neg: #e66767; --div-mid: #2a3136;
   --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
   --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --s9: #bb0d99; --s10: #a85e36; --s11: #8d55f8; --s12: #eb33cd;
+  --s13: #136d9e; --s14: #994f77; --s15: #a716d6; --s16: #0292b0;
+  --s17: #be7547; --s18: #ca0f55; --s19: #1a5cde; --s20: #16794e;
   color-scheme: dark;
 }
 

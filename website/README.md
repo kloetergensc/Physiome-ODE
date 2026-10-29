@@ -34,9 +34,11 @@ docs/                        what GitHub Pages serves; only the scripts write da
 2. Add an entry to `website/models.json` (`name`, `results`, `family`, `ode`, `reference`, `paper` (link to the
    publication), `code`, `source`, `slot`, and `status`: `paper`, `verified` or `self-reported`). `ode: true`
    puts the model in the page's default view, the ODE-based models; the rest are added under "All IMTS
-   models". `slot` fixes the model's color: 1-8 are the page's validated categorical colors (each used once),
-   0 is neutral gray, currently used for the Elo reference model. All 8 colors are taken, so a 10th model
-   needs a decision, e.g. a second gray model or coloring by family.
+   models". `slot` fixes the model's color, one per model: 1-8 are the page's validated categorical colors,
+   9-20 extend them (`--s9` ... `--s20` in `docs/assets/style.css`, light and dark), each picked to be as far
+   as possible from all earlier slots. Give a new model the next free slot. Some later slots resemble earlier
+   ones; the page always shows the model name next to its color, so that is acceptable. Past 20, add
+   `--s21` ... in all three theme blocks of `style.css` and raise `MAX_SLOT` in `build_leaderboard.py`.
 
 3. Rebuild and check:
 

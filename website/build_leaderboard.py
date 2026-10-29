@@ -1,7 +1,7 @@
 """Build the leaderboard data for the website.
 
 Inputs
-    website/models.json       model metadata; "slot" fixes each model's color (1-8, 0 = neutral gray),
+    website/models.json       model metadata; "slot" fixes each model's color (1-20, 0 = neutral gray),
                               "ode" puts the model in the page's ODE-based subset
     website/datasets.csv      short dataset ids (DUP01, ...) for the 50 benchmark datasets
     website/results/*.csv     one file per model, either
@@ -32,7 +32,7 @@ WEB = ROOT / "website"
 REPO_URL = "https://github.com/kloetergensc/Physiome-ODE"
 STATUSES = {"paper", "verified", "self-reported"}
 N_FOLDS = 5
-MAX_SLOT = 8  # validated categorical colors on the page; slot 0 is neutral gray
+MAX_SLOT = 20  # model colors defined on the page (--s1 ... --s20); slot 0 is neutral gray
 
 
 def warn(msg):
