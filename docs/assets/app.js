@@ -9,6 +9,20 @@
   // palette, 0 is a neutral tone (used for the Elo reference model).
   var STATUS = { paper: ['Paper', 'badge'], verified: ['Verified', 'badge ver'], 'self-reported': ['Self-reported', 'badge self'] };
 
+  // Theme: follows the system until the viewer picks one with the header button. The pick is kept in
+  // localStorage and applied by the inline script in <head> before first paint.
+  var root = document.documentElement, darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  var themeBtn = document.getElementById('theme');
+  function isDark() { return root.dataset.theme ? root.dataset.theme === 'dark' : darkQuery.matches; }
+  function syncTheme() { themeBtn.setAttribute('aria-pressed', String(isDark())); }
+  themeBtn.addEventListener('click', function () {
+    root.dataset.theme = isDark() ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    syncTheme();
+  });
+  if (darkQuery.addEventListener) darkQuery.addEventListener('change', syncTheme);
+  syncTheme();
+
   function getJSON(url) {
     return fetch(url).then(function (r) {
       if (!r.ok) throw new Error(url + ': HTTP ' + r.status);
@@ -27,29 +41,47 @@
   function init(RAW) {
     var INFO = {};
     RAW.models.forEach(function (m, i) {
-      INFO[m.name] = { slot: m.slot || 0, family: m.family, ref: m.ref, code: m.code, status: m.status, source: m.source };
+      INFO[m.name] = { slot: m.slot || 0, family: m.family, ode: m.ode, ref: m.ref, paper: m.paper, code: m.code, status: m.status, source: m.source };
     });
-    var MODELS = RAW.models.map(function (m) { return m.name; });
-    var K = MODELS.length;
-    var ANCHOR = Math.max(0, MODELS.indexOf(RAW.anchor));
+    var ALL = RAW.models.map(function (m) { return m.name; });
     var D = RAW.datasets;
     var N_ALL = D.length;
-    var MSE = D.map(function (d) { return MODELS.map(function (m) { return d.res[m][0]; }); });
-    var SD = D.map(function (d) { return MODELS.map(function (m) { return d.res[m][1]; }); });
-    var BEST = MSE.map(function (v) { return Math.min.apply(null, v); });
-    var RANK = MSE.map(function (v) { return v.map(function (x) { return 1 + v.filter(function (y) { return y < x; }).length; }); });
+    // The models control picks the compared set; best MSE, ranks and wins are relative to it.
+    var MODELS, K, ANCHOR, MSE, SD, BEST, RANK;
+    function useModels(which) {
+      MODELS = ALL.filter(function (m) { return which === 'all' || INFO[m].ode; });
+      K = MODELS.length;
+      ANCHOR = Math.max(0, MODELS.indexOf(RAW.anchor));
+      MSE = D.map(function (d) { return MODELS.map(function (m) { return d.res[m][0]; }); });
+      SD = D.map(function (d) { return MODELS.map(function (m) { return d.res[m][1]; }); });
+      BEST = MSE.map(function (v) { return Math.min.apply(null, v); });
+      RANK = MSE.map(function (v) { return v.map(function (x) { return 1 + v.filter(function (y) { return y < x; }).length; }); });
+    }
+    useModels('ode');
 
     var byJgd = D.map(function (_, i) { return i; }).sort(function (a, b) { return D[b].jgd - D[a].jgd; });
     var TIER = new Array(N_ALL);
     var third = Math.round(N_ALL / 3);
     byJgd.forEach(function (d, r) { TIER[d] = r < third ? 'high' : r < 2 * third ? 'mid' : 'low'; });
 
-    var state = { tier: 'all', domain: 'all', ch: 'all', view: 'mse', lbSort: { key: 'elo', dir: -1 }, dsSort: { key: 'jgd', dir: -1 } };
+    // Slider steps are the values that occur in the data, so every step changes the slice and the many
+    // small datasets are not crowded together.
+    function distinct(f) { return D.map(f).filter(function (v, i, a) { return a.indexOf(v) === i; }).sort(function (a, b) { return a - b; }); }
+    var CH_V = distinct(function (d) { return d.channels; });
+    var JGD_V = distinct(function (d) { return d.jgd; });
+    function noFilter() {
+      var doms = {};
+      D.forEach(function (d) { doms[d.domain] = true; });
+      return { doms: doms, ch: [0, CH_V.length - 1], jgd: [0, JGD_V.length - 1] };
+    }
+
+    var state = { models: 'ode', view: 'mse', lbSort: { key: 'elo', dir: -1 }, dsSort: { key: 'jgd', dir: -1 } };
+    Object.assign(state, noFilter());
     var DEFAULT_DIR = { elo: -1, rank: 1, wins: -1, imp: 1 };
 
     function $(id) { return document.getElementById(id); }
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-    function info(i) { return INFO[MODELS[i]] || { slot: 0, family: '—', ref: '', code: '#', status: 'self-reported' }; }
+    function info(i) { return INFO[MODELS[i]] || { slot: 0, family: '—', ref: '', paper: '', code: '#', status: 'self-reported' }; }
     function col(i) { var s = info(i).slot; return s ? 'var(--s' + s + ')' : 'var(--muted)'; }
     function fmtJ(x) { return x >= 1 ? x.toFixed(2) : x >= 0.1 ? x.toFixed(3) : x.toPrecision(2); }
     function fmtInt(x) { return Math.round(x).toLocaleString('en-US'); }
@@ -130,10 +162,9 @@
     function sliceIdx() {
       return range(N_ALL).filter(function (i) {
         var d = D[i];
-        if (state.tier !== 'all' && TIER[i] !== state.tier) return false;
-        if (state.domain !== 'all' && d.domain !== state.domain) return false;
-        if (state.ch === 'lo' && d.channels > 5) return false;
-        if (state.ch === 'hi' && d.channels <= 5) return false;
+        if (!state.doms[d.domain]) return false;
+        if (d.channels < CH_V[state.ch[0]] || d.channels > CH_V[state.ch[1]]) return false;
+        if (d.jgd < JGD_V[state.jgd[0]] || d.jgd > JGD_V[state.jgd[1]]) return false;
         return true;
       });
     }
@@ -153,7 +184,8 @@
         var inf = info(m.i);
         return '<tr>' +
           '<td class="c-pos">' + pos[m.i] + '</td>' +
-          '<td><div class="mcell"><span class="sw" style="background:' + col(m.i) + '"></span><div><a class="mname" href="' + esc(inf.code) + '">' + esc(MODELS[m.i]) + '</a><span class="mref">' + esc(inf.ref) + '</span></div></div></td>' +
+          '<td><div class="mcell"><span class="sw" style="background:' + col(m.i) + '"></span><div><a class="mname" href="' + esc(inf.code) + '" title="Code">' + esc(MODELS[m.i]) + '</a>' +
+            (inf.paper ? '<a class="mref" href="' + esc(inf.paper) + '" title="Paper">' + esc(inf.ref) + '</a>' : '<span class="mref">' + esc(inf.ref) + '</span>') + '</div></div></td>' +
           '<td><span class="chip">' + esc(inf.family) + '</span></td>' +
           '<td><div class="elocell"><span class="elo-num">' + fmtInt(m.elo) + '</span><span class="elo-ci">' + (m.i === ANCHOR ? 'anchor' : '+' + fmtInt(m.hi - m.elo) + ' /−' + fmtInt(m.elo - m.lo)) + '</span></div></td>' +
           '<td class="num">' + m.rank.toFixed(2) + '</td>' +
@@ -349,10 +381,13 @@
       return Object.keys(c).map(function (k) { return { k: k, n: c[k] }; }).sort(function (a, b) { return b.n - a.n || a.k.localeCompare(b.k); });
     })();
 
+    function domsOn() { return DOMAINS.filter(function (d) { return state.doms[d.k]; }); }
+    function onlyDom() { var on = domsOn(); return on.length === 1 && DOMAINS.length > 1 ? on[0].k : null; }
+
     function renderDomains() {
-      var max = DOMAINS[0].n;
+      var max = DOMAINS[0].n, only = onlyDom();
       $('domains').innerHTML = DOMAINS.map(function (d) {
-        return '<button type="button" class="dom-row" data-domain="' + esc(d.k) + '" aria-pressed="' + (state.domain === d.k) + '"><span class="dom-name">' + esc(prettyDomain(d.k)) + '</span>' +
+        return '<button type="button" class="dom-row" data-domain="' + esc(d.k) + '" aria-pressed="' + (only === d.k) + '"><span class="dom-name">' + esc(prettyDomain(d.k)) + '</span>' +
           '<span class="dom-bar"><i style="width:' + (d.n / max * 82).toFixed(1) + '%"></i>' + d.n + '</span></button>';
       }).join('');
     }
@@ -398,30 +433,68 @@
     }
 
     // ---------- Controls ----------
-    function tierRange(t) {
-      var v = range(N_ALL).filter(function (i) { return TIER[i] === t; }).map(function (i) { return D[i].jgd; });
-      return fmtJ(Math.min.apply(null, v)) + '–' + fmtJ(Math.max.apply(null, v));
+    document.querySelector('[data-ctl="models"] [data-v="ode"]').title = ALL.filter(function (m) { return INFO[m].ode; }).join(', ');
+    document.querySelector('[data-ctl="models"] [data-v="all"]').title = 'Adds ' + ALL.filter(function (m) { return !INFO[m].ode; }).join(', ');
+    $('f-domains').innerHTML = DOMAINS.map(function (d) {
+      return '<label class="check"><input type="checkbox" value="' + esc(d.k) + '"><span>' + esc(prettyDomain(d.k)) + ' <span class="n">' + d.n + '</span></span></label>';
+    }).join('');
+
+    // Two native range inputs share one track; state[key] holds indices into vals.
+    function rangeControl(id, key, vals, fmt) {
+      var box = $(id), ins = box.querySelectorAll('input'), fill = box.querySelector('.range-track i'), out = box.nextElementSibling.children;
+      var m = vals.length - 1;
+      ins.forEach(function (inp, k) {
+        inp.max = m;
+        inp.addEventListener('input', function () {
+          var v = +inp.value, r = state[key].slice();
+          r[k] = k ? Math.max(v, r[0]) : Math.min(v, r[1]);
+          state[key] = r;
+          filterChanged();
+        });
+      });
+      return function paint() {
+        var r = state[key];
+        ins.forEach(function (inp, k) {
+          inp.value = r[k];
+          inp.setAttribute('aria-valuetext', fmt(vals[r[k]]));
+          out[k].textContent = fmt(vals[r[k]]);
+        });
+        fill.style.left = (r[0] / m * 100) + '%';
+        fill.style.right = (100 - r[1] / m * 100) + '%';
+        // When the thumbs meet, keep on top the one that can still move.
+        box.classList.toggle('lo-top', r[0] > m / 2);
+      };
     }
-    document.querySelectorAll('[data-ctl="tier"] button').forEach(function (b) {
-      if (b.dataset.v !== 'all') b.title = 'JGD ' + tierRange(b.dataset.v);
-    });
-    var sel = $('f-domain');
-    sel.innerHTML = '<option value="all">All domains</option>' + DOMAINS.map(function (d) { return '<option value="' + esc(d.k) + '">' + esc(prettyDomain(d.k)) + ' (' + d.n + ')</option>'; }).join('');
+    var paintCh = rangeControl('r-ch', 'ch', CH_V, String);
+    var paintJgd = rangeControl('r-jgd', 'jgd', JGD_V, fmtJ);
+    function narrowed(key, vals) { return state[key][0] > 0 || state[key][1] < vals.length - 1; }
 
     function renderControls(idx) {
       document.querySelectorAll('.seg').forEach(function (seg) {
         var k = seg.dataset.ctl;
         seg.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(state[k] === b.dataset.v)); });
       });
-      sel.value = state.domain;
-      var n = idx.length, txt = '<strong>' + n + '</strong> of ' + N_ALL + ' datasets';
-      if (n) {
-        var j = idx.map(function (d) { return D[d].jgd; });
-        txt += ' · JGD ' + fmtJ(Math.min.apply(null, j)) + '–' + fmtJ(Math.max.apply(null, j));
+      $('f-domains').querySelectorAll('input').forEach(function (c) { c.checked = !!state.doms[c.value]; });
+      paintCh();
+      paintJgd();
+      var n = idx.length, nd = domsOn().length, txt = '<strong>' + n + '</strong> of ' + N_ALL + ' datasets';
+      if (nd < DOMAINS.length) txt += ' · ' + (onlyDom() ? esc(prettyDomain(onlyDom())) : nd + ' of ' + DOMAINS.length + ' domains');
+      if (narrowed('ch', CH_V)) {
+        var c0 = CH_V[state.ch[0]], c1 = CH_V[state.ch[1]];
+        txt += ' · ' + (c0 === c1 ? c0 : c0 + '–' + c1) + (c1 === 1 ? ' channel' : ' channels');
       }
+      if (n) {
+        var j = idx.map(function (d) { return D[d].jgd; }), j0 = fmtJ(Math.min.apply(null, j)), j1 = fmtJ(Math.max.apply(null, j));
+        txt += ' · JGD ' + (j0 === j1 ? j0 : j0 + '–' + j1);
+      }
+      if (K < ALL.length) txt += ' · <strong>' + K + '</strong> of ' + ALL.length + ' models';
       if (n && n < 10) txt += ' · <span class="warn">few datasets, wide intervals</span>';
       $('slice-summary').innerHTML = txt;
-      $('reset').hidden = state.tier === 'all' && state.domain === 'all' && state.ch === 'all';
+      $('f-match').innerHTML = '<strong>' + n + '</strong> of ' + N_ALL + ' datasets match';
+      var active = (nd < DOMAINS.length) + narrowed('ch', CH_V) + narrowed('jgd', JGD_V);
+      $('reset').hidden = !active;
+      $('filter-count').hidden = !active;
+      $('filter-count').textContent = active;
     }
 
     function render() {
@@ -437,18 +510,58 @@
       renderDomains();
       renderStrip(idx);
     }
+    // Dragging a slider fires many input events; render at most once per frame.
+    var pending = 0;
+    function renderSoon() { if (!pending) pending = requestAnimationFrame(function () { pending = 0; render(); }); }
+    // The filter controls and counts update at once; the statistics follow on the next frame.
+    function filterChanged() { renderControls(sliceIdx()); renderSoon(); }
 
     document.querySelectorAll('.seg').forEach(function (seg) {
       seg.addEventListener('click', function (e) {
         var b = e.target.closest('button');
         if (!b) return;
+        if (seg.dataset.ctl === 'models') { setModels(b.dataset.v); render(); return; }
         state[seg.dataset.ctl] = b.dataset.v;
         if (seg.dataset.ctl === 'view') { renderControls(sliceIdx()); renderDatasets(sliceIdx()); return; }
         render();
       });
     });
-    sel.addEventListener('change', function () { state.domain = sel.value; render(); });
-    $('reset').addEventListener('click', function () { state.tier = 'all'; state.domain = 'all'; state.ch = 'all'; render(); });
+    // Model columns are sorted by index, so carry a model sort over by name when the model set changes.
+    function setModels(v) {
+      var sortName = state.dsSort.key.charAt(0) === 'm' ? MODELS[+state.dsSort.key.slice(1)] : null;
+      state.models = v;
+      useModels(v);
+      if (sortName) {
+        var i = MODELS.indexOf(sortName);
+        state.dsSort = i < 0 ? { key: 'jgd', dir: -1 } : { key: 'm' + i, dir: state.dsSort.dir };
+      }
+      if (ex.id) renderExMeta();
+    }
+    $('f-domains').addEventListener('change', function (e) {
+      state.doms[e.target.value] = e.target.checked;
+      filterChanged();
+    });
+    document.querySelectorAll('[data-doms]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        DOMAINS.forEach(function (d) { state.doms[d.k] = b.dataset.doms === 'all'; });
+        filterChanged();
+      });
+    });
+    $('reset').addEventListener('click', function () { Object.assign(state, noFilter()); render(); });
+
+    var filterBtn = $('filter-btn'), panel = $('filter-panel');
+    function showFilters(open) {
+      panel.hidden = !open;
+      filterBtn.setAttribute('aria-expanded', String(open));
+    }
+    filterBtn.addEventListener('click', function () { showFilters(panel.hidden); });
+    $('filter-done').addEventListener('click', function () { showFilters(false); filterBtn.focus(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) { showFilters(false); filterBtn.focus(); }
+    });
+    document.addEventListener('pointerdown', function (e) {
+      if (!panel.hidden && !$('rail').contains(e.target)) showFilters(false);
+    });
     document.querySelector('.lb thead').addEventListener('click', function (e) {
       var b = e.target.closest('[data-sort]');
       if (!b) return;
@@ -467,14 +580,15 @@
     $('domains').addEventListener('click', function (e) {
       var b = e.target.closest('[data-domain]');
       if (!b) return;
-      state.domain = state.domain === b.dataset.domain ? 'all' : b.dataset.domain;
+      var k = b.dataset.domain, all = onlyDom() === k;
+      DOMAINS.forEach(function (d) { state.doms[d.k] = all || d.k === k; });
       render();
       $('leaderboard').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     });
 
     var cache = { key: null, st: null };
     function computeStatsCached() {
-      var idx = sliceIdx(), k = idx.join(',');
+      var idx = sliceIdx(), k = state.models + ':' + idx.join(',');
       if (cache.key !== k) cache = { key: k, st: idx.length ? computeStats(idx) : { n: 0, models: [], wr: [] } };
       return cache.st;
     }
@@ -706,7 +820,7 @@
     $('fact-datasets').textContent = N_ALL;
     $('fact-domains').textContent = DOMAINS.length;
     $('fact-channels').textContent = Math.min.apply(null, chans) + '–' + Math.max.apply(null, chans);
-    $('fact-models').textContent = K;
+    $('fact-models').textContent = ALL.length;
     $('updated').textContent = 'Leaderboard data built ' + RAW.generated;
     loadSample(HERO.id).then(renderHero, function () { $('hero-lanes').closest('figure').hidden = true; });
     render();

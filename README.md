@@ -14,8 +14,11 @@ The per-dataset results of the models from the paper are unchanged.
 
 - **October 2026:** Added IMTS-Mixer, TimeCHEAT and tPatchGNN, with results from Table 6 of
   [Mixing It Up: Exploring Mixer Networks for Irregular Multivariate Time Series Forecasting](https://arxiv.org/abs/2502.11816)
-  (Klötergens et al.). Wins and average ranks are now computed over all nine models, so for the original six
-  models they differ from the Physiome-ODE paper (e.g. LinODENet: 25 → 7 wins, average rank 2.10 → 3.36).
+  (Klötergens et al., PAKDD 2026); the Physiome-ODE results are only in the arXiv version. The site
+  compares the four ODE-based models by default; with "All IMTS models" selected, wins and average
+  ranks are computed over all nine. Either way they differ from the Physiome-ODE paper, which compared
+  six models (LinODENet: 25 wins and average rank 2.10 in the paper, 34 and 1.36 among the ODE-based models,
+  7 and 3.36 among all nine).
 
 
 # Requirements

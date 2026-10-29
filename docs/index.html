@@ -8,6 +8,7 @@
 <meta property="og:title" content="Physiome-ODE Leaderboard">
 <meta property="og:description" content="Elo ranking, per-dataset results and dataset samples for the Physiome-ODE benchmark (ICLR 2025).">
 <meta property="og:type" content="website">
+<script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/style.css">
@@ -29,6 +30,10 @@
       <a class="btn" href="https://openreview.net/forum?id=6ouZaBzeNO">Paper</a>
       <a class="btn" href="https://github.com/kloetergensc/Physiome-ODE">GitHub</a>
       <a class="btn" href="https://zenodo.org/records/11492058">Data on Zenodo</a>
+      <button type="button" class="btn theme" id="theme" aria-label="Dark mode" title="Dark mode" aria-pressed="false">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12h2.5M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.8 6.8 0 0 0 10.7 10.7z"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -64,28 +69,53 @@
   <div class="rail" id="rail">
     <div class="wrap rail-inner">
       <div class="ctl">
-        <span class="ctl-label" id="lbl-tier">Complexity</span>
-        <div class="seg" role="group" aria-labelledby="lbl-tier" data-ctl="tier">
-          <button type="button" data-v="all" aria-pressed="true">All</button>
-          <button type="button" data-v="high" aria-pressed="false">High JGD</button>
-          <button type="button" data-v="mid" aria-pressed="false">Medium</button>
-          <button type="button" data-v="low" aria-pressed="false">Low</button>
+        <span class="ctl-label" id="lbl-models">Models</span>
+        <div class="seg" role="group" aria-labelledby="lbl-models" data-ctl="models">
+          <button type="button" data-v="ode" aria-pressed="true">ODE-based</button>
+          <button type="button" data-v="all" aria-pressed="false">All IMTS models</button>
         </div>
       </div>
-      <div class="ctl">
-        <label class="ctl-label" for="f-domain">Domain</label>
-        <select id="f-domain"></select>
-      </div>
-      <div class="ctl">
-        <span class="ctl-label" id="lbl-ch">Channels</span>
-        <div class="seg" role="group" aria-labelledby="lbl-ch" data-ctl="ch">
-          <button type="button" data-v="all" aria-pressed="true">All</button>
-          <button type="button" data-v="lo" aria-pressed="false">2–5</button>
-          <button type="button" data-v="hi" aria-pressed="false">6–56</button>
-        </div>
-      </div>
+      <button type="button" class="btn" id="filter-btn" aria-expanded="false" aria-controls="filter-panel">
+        <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M2 4h12M4.5 8h7M7 12h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Filter datasets<span class="fcount" id="filter-count" hidden></span>
+      </button>
       <p class="slice-summary" id="slice-summary" aria-live="polite"></p>
-      <button type="button" class="reset" id="reset" hidden>Reset</button>
+      <button type="button" class="reset" id="reset" hidden>Reset filters</button>
+    </div>
+    <div class="fpanel" id="filter-panel" role="region" aria-label="Filter datasets" hidden>
+      <div class="wrap fpanel-inner">
+        <fieldset class="fgroup">
+          <legend class="ctl-label">Domain</legend>
+          <div class="fquick">
+            <button type="button" class="reset" data-doms="all">Select all</button>
+            <button type="button" class="reset" data-doms="none">Clear</button>
+          </div>
+          <div class="checks" id="f-domains"></div>
+        </fieldset>
+        <div class="fgroup" role="group" aria-labelledby="lbl-ch">
+          <span class="ctl-label" id="lbl-ch">Channels</span>
+          <div class="range" id="r-ch">
+            <div class="range-track"><i></i></div>
+            <input type="range" min="0" step="1" aria-label="Fewest channels">
+            <input type="range" min="0" step="1" aria-label="Most channels">
+          </div>
+          <div class="range-vals"><span></span><span></span></div>
+        </div>
+        <div class="fgroup" role="group" aria-labelledby="lbl-jgd">
+          <span class="ctl-label" id="lbl-jgd">JGD</span>
+          <div class="range" id="r-jgd">
+            <div class="range-track"><i></i></div>
+            <input type="range" min="0" step="1" aria-label="Lowest JGD">
+            <input type="range" min="0" step="1" aria-label="Highest JGD">
+          </div>
+          <div class="range-vals"><span></span><span></span></div>
+          <p class="hint">Each step adds or drops one dataset.</p>
+        </div>
+        <div class="ffoot">
+          <span id="f-match" aria-live="polite"></span>
+          <button type="button" class="btn primary" id="filter-done">Done</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -94,7 +124,7 @@
       <div class="sec-head">
         <div>
           <h2>Leaderboard</h2>
-          <p>Models ranked by Elo from head-to-head comparisons on each dataset. Narrow the slice above and every number on this page is recomputed for those datasets.</p>
+          <p>Models ranked by Elo from head-to-head comparisons on each dataset. By default only the ODE-based models are compared. Switch to all IMTS models or filter the datasets, and every number on this page is recomputed.</p>
         </div>
       </div>
       <div class="fig elo-fig">
@@ -194,7 +224,7 @@
       <div class="two">
         <div class="prose">
           <p>Each Physiome model is a set of coupled ODEs, often written for one paper about one cell type or organ. We simulate many trajectories per model, varying the initial states and the model constants, then turn them into an irregular forecasting task.</p>
-          <p><strong>JGD</strong> (joint gradient deviation) scores how much a channel's increments vary along each trajectory and across trajectories, averaged over the ten highest-scoring channels. High JGD means varied, fast-changing dynamics. The complexity filter splits the 50 datasets into thirds by JGD.</p>
+          <p><strong>JGD</strong> (joint gradient deviation) scores how much a channel's increments vary along each trajectory and across trajectories, averaged over the ten highest-scoring channels. High JGD means varied, fast-changing dynamics. Low, medium and high below are thirds of the 50 datasets by JGD.</p>
           <dl class="params">
             <div><dt>Time grid</dt><dd>100 steps</dd></div>
             <div><dt>Observed / forecast</dt><dd>first 50% / next 50%</dd></div>
@@ -205,7 +235,7 @@
           </dl>
         </div>
         <div>
-          <h3 class="ctl-label">Datasets per domain · click to filter</h3>
+          <h3 class="ctl-label">Datasets per domain · click to show only that domain</h3>
           <div class="domains" id="domains"></div>
           <div class="strip-box">
             <h3 class="ctl-label">JGD of all 50 datasets · dark dots are in the current slice · click one to sample it</h3>
@@ -306,7 +336,7 @@ dupont_1991a,1,0.957</pre>
 <footer>
   <div class="wrap foot">
     <span>Physiome-ODE · Apache-2.0</span>
-    <span>Results from the ICLR 2025 paper</span>
+    <span>Results from the Physiome-ODE and IMTS-Mixer papers</span>
     <span id="updated"></span>
     <a href="https://github.com/kloetergensc/Physiome-ODE">github.com/kloetergensc/Physiome-ODE</a>
   </div>

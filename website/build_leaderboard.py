@@ -1,7 +1,8 @@
 """Build the leaderboard data for the website.
 
 Inputs
-    website/models.json       model metadata; "slot" fixes each model's color (1-8, 0 = neutral gray)
+    website/models.json       model metadata; "slot" fixes each model's color (1-8, 0 = neutral gray),
+                              "ode" puts the model in the page's ODE-based subset
     website/datasets.csv      short dataset ids (DUP01, ...) for the 50 benchmark datasets
     website/results/*.csv     one file per model, either
                                 dataset,fold,test_mse        (one row per dataset and fold), or
@@ -101,7 +102,9 @@ def build():
         models.append({
             "name": m["name"],
             "family": m["family"],
+            "ode": bool(m.get("ode", False)),
             "ref": m["reference"],
+            "paper": m.get("paper", ""),
             "code": f"{REPO_URL}/{kind}/main/{m['code']}",
             "status": m["status"],
             "source": m.get("source", ""),
