@@ -30,7 +30,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "website"
 REPO_URL = "https://github.com/kloetergensc/Physiome-ODE"
-STATUSES = {"paper", "verified", "self-reported"}
 N_FOLDS = 5
 MAX_SLOT = 20  # model colors defined on the page (--s1 ... --s20); slot 0 is neutral gray
 
@@ -91,8 +90,6 @@ def build():
     names = {d["model"] for d in datasets}
     models, results = [], {}
     for m in cfg["models"]:
-        if m["status"] not in STATUSES:
-            raise SystemExit(f"{m['name']}: status must be one of {sorted(STATUSES)}")
         res = load_results(WEB / "results" / m["results"], names)
         missing = sorted(names - set(res))
         if missing:
@@ -106,7 +103,6 @@ def build():
             "ref": m["reference"],
             "paper": m.get("paper", ""),
             "code": f"{REPO_URL}/{kind}/main/{m['code']}",
-            "status": m["status"],
             "source": m.get("source", ""),
             "slot": m["slot"],
         })

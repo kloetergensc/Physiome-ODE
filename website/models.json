@@ -9,7 +9,6 @@
       "reference": "De Brouwer et al., NeurIPS 2019",
       "paper": "https://proceedings.neurips.cc/paper/2019/hash/455cb2657aaa59e32fad80cb0b65b9dc-Abstract.html",
       "code": "experiments/training/models/gruodebayes",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 9
     },
@@ -21,7 +20,6 @@
       "reference": "Scholz et al., 2022 (preprint)",
       "paper": "https://openreview.net/forum?id=a-bD9-0ycs0",
       "code": "experiments/training/models/linodenet",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 2
     },
@@ -33,7 +31,6 @@
       "reference": "Schirmer et al., ICML 2022",
       "paper": "https://proceedings.mlr.press/v162/schirmer22a.html",
       "code": "experiments/training/models/cru",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 3
     },
@@ -45,7 +42,6 @@
       "reference": "Biloš et al., NeurIPS 2021",
       "paper": "https://proceedings.neurips.cc/paper/2021/hash/b21f9f98829dea9a48fd8aaddc1f159d-Abstract.html",
       "code": "experiments/training/models/neuralflow",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 4
     },
@@ -57,7 +53,6 @@
       "reference": "Yalavarthi et al., AAAI 2024",
       "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/29560",
       "code": "experiments/training/models/grafiti",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 5
     },
@@ -69,7 +64,6 @@
       "reference": "GraFITi, same forecast at every query time",
       "paper": "https://openreview.net/forum?id=6ouZaBzeNO",
       "code": "experiments/training/train_grafiti_constant.py",
-      "status": "paper",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 6
     },
@@ -81,7 +75,6 @@
       "reference": "Klötergens et al., PAKDD 2026",
       "paper": "https://arxiv.org/abs/2502.11816",
       "code": "experiments/training/models/imts_mixer",
-      "status": "paper",
       "source": "IMTS-Mixer paper, arXiv version (arXiv:2502.11816), Table 6",
       "slot": 1
     },
@@ -93,7 +86,6 @@
       "reference": "Liu et al., AAAI 2025",
       "paper": "https://ojs.aaai.org/index.php/AAAI/article/view/34076",
       "code": "experiments/training/models/timecheat",
-      "status": "paper",
       "source": "IMTS-Mixer paper, arXiv version (arXiv:2502.11816), Table 6",
       "slot": 7
     },
@@ -105,7 +97,6 @@
       "reference": "Zhang et al., ICML 2024",
       "paper": "https://proceedings.mlr.press/v235/zhang24bw.html",
       "code": "experiments/training/models/tpatchgnn",
-      "status": "paper",
       "source": "IMTS-Mixer paper, arXiv version (arXiv:2502.11816), Table 6",
       "slot": 8
     },
@@ -117,7 +108,6 @@
       "reference": "Soydan et al., NeurIPS 2026",
       "paper": "https://arxiv.org/abs/2605.09742",
       "code": "experiments/training/models/tides",
-      "status": "paper",
       "source": "TIDES paper (NeurIPS 2026; arXiv:2605.09742), Table 8",
       "slot": 10
     }

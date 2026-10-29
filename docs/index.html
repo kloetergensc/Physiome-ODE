@@ -139,17 +139,16 @@
               <th scope="col" class="c-pos">#</th>
               <th scope="col">Model</th>
               <th scope="col">Type</th>
-              <th scope="col" data-key="elo"><button class="sort" type="button" data-sort="elo">Elo <span class="hint">95% CI</span></button></th>
-              <th scope="col" class="num" data-key="rank"><button class="sort" type="button" data-sort="rank">Avg. rank</button></th>
-              <th scope="col" class="num" data-key="wins"><button class="sort" type="button" data-sort="wins">Wins</button></th>
-              <th scope="col" class="num" data-key="imp"><button class="sort" type="button" data-sort="imp">Improvability</button></th>
-              <th scope="col">Status</th>
+              <th scope="col" data-key="elo"><button class="sort" type="button" data-sort="elo" title="Rating from head-to-head comparisons on each dataset; higher is better">Elo <span class="hint">95% CI</span></button></th>
+              <th scope="col" class="num" data-key="rank"><button class="sort" type="button" data-sort="rank" title="Mean rank over the datasets; 1 is the lowest MSE">Avg. rank</button></th>
+              <th scope="col" class="num" data-key="wins"><button class="sort" type="button" data-sort="wins" title="Datasets on which the model has the lowest MSE">Wins</button></th>
+              <th scope="col" class="num" data-key="imp"><button class="sort" type="button" data-sort="imp" title="How much lower the best model's MSE is than this model's, averaged over the datasets; 0% means best on every dataset">Improvability</button></th>
             </tr>
           </thead>
-          <tbody id="lb-body"><tr><td colspan="8" class="empty">Loading results…</td></tr></tbody>
+          <tbody id="lb-body"><tr><td colspan="7" class="empty">Loading results…</td></tr></tbody>
         </table>
       </div>
-      <p class="note">Elo is a Bradley–Terry fit with GRU-ODE-Bayes fixed at 1000. Intervals come from 300 bootstrap resamples of the datasets in the slice. Wins count a tie for every tied model. Lower is better for average rank and improvability.</p>
+      <p class="note">Elo is a Bradley–Terry fit with GRU-ODE-Bayes fixed at 1000. Intervals come from 300 bootstrap resamples of the datasets in the slice. Wins count a tie for every tied model. Improvability is how much lower the best model's MSE is than this model's, as a share of this model's MSE and averaged over the datasets; 0% means it is the best on every dataset. Lower is better for average rank and improvability. <a href="#scoring">How each measure is computed</a>.</p>
 
       <div class="figs">
         <div class="fig">
@@ -270,8 +269,8 @@
         </div>
         <div class="def">
           <h3>Improvability</h3>
-          <p>How much lower the best model's error is, on average. A model at 0% is the best on every dataset in the slice.</p>
-          <code class="formula">imp(i) = mean_d (MSE_d(i) − MSE*_d) / MSE_d(i)</code>
+          <p>How far the model is from the best result: on each dataset, the gap between its MSE and the lowest MSE among the compared models, as a share of its own MSE, averaged over the datasets in the slice. At 0% the model is the best on every dataset; at 20% the best model's error is on average 20% lower than this model's.</p>
+          <code class="formula">imp(i) = mean_d (MSE_d(i) − min_j MSE_d(j)) / MSE_d(i)</code>
         </div>
       </div>
       <p class="protocol">Every model is trained separately on each dataset and fold, with early stopping on a validation split. The reported number is test MSE on z-normalized values, averaged over five folds.</p>
@@ -281,7 +280,7 @@
       <div class="sec-head">
         <div>
           <h2>Add your model</h2>
-          <p>The leaderboard takes new published models from the community. A submission is code plus results; maintainers rerun part of it before it counts as verified.</p>
+          <p>The leaderboard takes new published models from the community. A submission is code plus results; maintainers rerun part of it before adding it.</p>
         </div>
       </div>
       <ol class="steps">
@@ -302,11 +301,6 @@ dupont_1991a,0,0.948
 dupont_1991a,1,0.957</pre>
         </li>
       </ol>
-      <div class="statuses">
-        <div><span class="badge">Paper</span>reported in a published paper (hover a badge for the source)</div>
-        <div><span class="badge ver">Verified</span>submitted and reproduced by maintainers</div>
-        <div><span class="badge self">Self-reported</span>submitted, not yet reproduced</div>
-      </div>
     </section>
 
     <section id="cite">

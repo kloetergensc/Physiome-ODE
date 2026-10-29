@@ -234,7 +234,6 @@ th[aria-sort] { color: var(--ink); }
 .mref:is(a) { text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 2px; }
 .mref:is(a):hover { color: var(--accent); text-decoration-color: currentColor; }
 .chip { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--rule-strong); color: var(--ink-2); }
-.badge { display: inline-block; font: 500 11px/1 var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; padding: 5px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); }
 .elocell { display: flex; align-items: center; gap: 10px; }
 .elo-num { font-weight: 600; font-size: 16px; min-width: 3.2em; text-align: right; }
 .elo-ci { font-size: 12px; color: var(--muted); min-width: 5.6em; }
@@ -328,7 +327,7 @@ details.twin th, details.twin td { padding: 6px 10px; }
 .def { padding: 18px 22px 20px 0; border-bottom: 1px solid var(--rule); }
 .def h3 { font-size: 16px; font-weight: 600; }
 .def p { color: var(--ink-2); margin-top: 6px; font-size: 14.5px; }
-.formula { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 7px 9px; overflow-x: auto; white-space: nowrap; }
+.formula { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 7px 9px; overflow-x: auto; }
 .protocol { margin-top: 20px; color: var(--ink-2); max-width: 60em; }
 
 /* Submit */
@@ -338,10 +337,6 @@ details.twin th, details.twin td { padding: 6px 10px; }
 .steps h3 { font-size: 16px; font-weight: 600; margin-top: 4px; }
 .steps p { color: var(--ink-2); margin-top: 6px; font-size: 14.5px; }
 pre { margin: 10px 0 0; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 14px; overflow-x: auto; font: 12.5px/1.6 var(--font-mono); color: var(--ink); }
-.statuses { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 22px; font-size: 14px; color: var(--ink-2); }
-.statuses div { display: flex; align-items: center; gap: 8px; }
-.badge.ver { background: color-mix(in oklab, var(--seq) 12%, transparent); color: var(--seq); }
-.badge.self { background: transparent; color: var(--muted); border: 1px solid var(--rule-strong); padding: 4px 6px; }
 
 /* Cite + footer */
 .cite { position: relative; }

@@ -7,7 +7,6 @@
   var EXPLORER_DEFAULT = 'LI01';
   // Colors come from each model's "slot" in website/models.json: --s1 ... --s20 in style.css, where 1-8
   // are the validated categorical palette; 0 is a neutral tone.
-  var STATUS = { paper: ['Paper', 'badge'], verified: ['Verified', 'badge ver'], 'self-reported': ['Self-reported', 'badge self'] };
 
   // Theme: follows the system until the viewer picks one with the header button. The pick is kept in
   // localStorage and applied by the inline script in <head> before first paint.
@@ -34,14 +33,14 @@
     var msg = location.protocol === 'file:'
       ? 'Open this page through a web server: run "python -m http.server" in the docs folder and visit http://localhost:8000.'
       : 'The leaderboard data could not be loaded (' + err.message + ').';
-    document.getElementById('lb-body').innerHTML = '<tr><td colspan="8" class="empty"></td></tr>';
+    document.getElementById('lb-body').innerHTML = '<tr><td colspan="7" class="empty"></td></tr>';
     document.querySelector('#lb-body .empty').textContent = msg;
   });
 
   function init(RAW) {
     var INFO = {};
     RAW.models.forEach(function (m, i) {
-      INFO[m.name] = { slot: m.slot || 0, family: m.family, ode: m.ode, ref: m.ref, paper: m.paper, code: m.code, status: m.status, source: m.source };
+      INFO[m.name] = { slot: m.slot || 0, family: m.family, ode: m.ode, ref: m.ref, paper: m.paper, code: m.code, source: m.source };
     });
     var ALL = RAW.models.map(function (m) { return m.name; });
     var D = RAW.datasets;
@@ -81,7 +80,7 @@
 
     function $(id) { return document.getElementById(id); }
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-    function info(i) { return INFO[MODELS[i]] || { slot: 0, family: '—', ref: '', paper: '', code: '#', status: 'self-reported' }; }
+    function info(i) { return INFO[MODELS[i]] || { slot: 0, family: '—', ref: '', paper: '', code: '#' }; }
     function col(i) { var s = info(i).slot; return s ? 'var(--s' + s + ')' : 'var(--muted)'; }
     function fmtJ(x) { return x >= 1 ? x.toFixed(2) : x >= 0.1 ? x.toFixed(3) : x.toPrecision(2); }
     function fmtInt(x) { return Math.round(x).toLocaleString('en-US'); }
@@ -173,7 +172,7 @@
     function renderLeaderboard(st) {
       var body = $('lb-body');
       if (!st.n) {
-        body.innerHTML = '<tr><td colspan="8" class="empty">No datasets match this slice. Widen a filter or reset.</td></tr>';
+        body.innerHTML = '<tr><td colspan="7" class="empty">No datasets match this slice. Widen a filter or reset.</td></tr>';
         return;
       }
       var byElo = st.models.slice().sort(function (a, b) { return b.elo - a.elo; });
@@ -185,13 +184,13 @@
         return '<tr>' +
           '<td class="c-pos">' + pos[m.i] + '</td>' +
           '<td><div class="mcell"><span class="sw" style="background:' + col(m.i) + '"></span><div><a class="mname" href="' + esc(inf.code) + '" title="Code">' + esc(MODELS[m.i]) + '</a>' +
-            (inf.paper ? '<a class="mref" href="' + esc(inf.paper) + '" title="Paper">' + esc(inf.ref) + '</a>' : '<span class="mref">' + esc(inf.ref) + '</span>') + '</div></div></td>' +
+            (inf.paper ? '<a class="mref" href="' + esc(inf.paper) + '" title="' + esc('Paper' + (inf.source ? ' · results: ' + inf.source : '')) + '">' + esc(inf.ref) + '</a>'
+              : '<span class="mref"' + (inf.source ? ' title="' + esc('Results: ' + inf.source) + '"' : '') + '>' + esc(inf.ref) + '</span>') + '</div></div></td>' +
           '<td><span class="chip">' + esc(inf.family) + '</span></td>' +
           '<td><div class="elocell"><span class="elo-num">' + fmtInt(m.elo) + '</span><span class="elo-ci">' + (m.i === ANCHOR ? 'anchor' : '+' + fmtInt(m.hi - m.elo) + ' /−' + fmtInt(m.elo - m.lo)) + '</span></div></td>' +
           '<td class="num">' + m.rank.toFixed(2) + '</td>' +
           '<td class="num">' + m.wins + '<span class="of"> / ' + st.n + '</span></td>' +
           '<td class="num">' + m.imp.toFixed(1) + '%</td>' +
-          '<td><span class="' + (STATUS[inf.status] || STATUS['self-reported'])[1] + '"' + (inf.source ? ' title="Results: ' + esc(inf.source) + '"' : '') + '>' + (STATUS[inf.status] || STATUS['self-reported'])[0] + '</span></td>' +
           '</tr>';
       }).join('');
       document.querySelectorAll('.lb th[data-key]').forEach(function (th) {

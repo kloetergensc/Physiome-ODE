@@ -32,7 +32,7 @@ docs/                        what GitHub Pages serves; only the scripts write da
    the mean and the sample standard deviation over folds.
 
 2. Add an entry to `website/models.json` (`name`, `results`, `family`, `ode`, `reference`, `paper` (link to the
-   publication), `code`, `source`, `slot`, and `status`: `paper`, `verified` or `self-reported`). `ode: true`
+   publication), `code`, `source` (where the results come from, shown when hovering the reference) and `slot`). `ode: true`
    puts the model in the page's default view, the ODE-based models; the rest are added under "All IMTS
    models". `slot` fixes the model's color, one per model: 1-8 are the page's validated categorical colors,
    9-20 extend them (`--s9` ... `--s20` in `docs/assets/style.css`, light and dark), each picked to be as far
