@@ -62,7 +62,7 @@
       "family": "Constant baseline",
       "ode": false,
       "reference": "GraFITi, same forecast at every query time",
-      "paper": "https://openreview.net/forum?id=6ouZaBzeNO",
+      "paper": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/565f995643da6329cec701f26f8579f5-Abstract-Conference.html",
       "code": "experiments/training/train_grafiti_constant.py",
       "source": "Physiome-ODE paper (ICLR 2025)",
       "slot": 6

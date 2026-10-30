@@ -1,8 +1,8 @@
 # Physiome-ODE
-This is the Git Repository from 
-	
-Physiome-ODE: A Benchmark for Irregularly Sampled Multivariate Time-Series Forecasting based on ODEs,
-submitted to the Thirteenth International Conference on Learning Representations (ICLR 2025)
+This is the Git repository of
+
+[Physiome-ODE: A Benchmark for Irregularly Sampled Multivariate Time-Series Forecasting Based on Biological ODEs](https://proceedings.iclr.cc/paper_files/paper/2025/hash/565f995643da6329cec701f26f8579f5-Abstract-Conference.html)
+(Klötergens et al., ICLR 2025)
 
 # Leaderboard
 
@@ -70,3 +70,23 @@ As an example see experiments/training/models/train_linodenet.py and its respect
 collate function in experiments/training/models/linodenet/utils/data_utils.py
 
 We are open to add new published models to the repo that can be contributed by the community. 
+
+# Citation
+
+If you use Physiome-ODE or the leaderboard, please cite the
+[ICLR 2025 paper](https://proceedings.iclr.cc/paper_files/paper/2025/hash/565f995643da6329cec701f26f8579f5-Abstract-Conference.html):
+
+```bibtex
+@inproceedings{klotergens2025physiomeode,
+  title     = {{Physiome-ODE}: A Benchmark for Irregularly Sampled Multivariate
+               Time-Series Forecasting Based on Biological {ODEs}},
+  author    = {Kl{\"o}tergens, Christian and Yalavarthi, Vijaya Krishna and
+               Scholz, Randolf and Stubbemann, Maximilian and Born, Stefan and
+               Schmidt-Thieme, Lars},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  volume    = {2025},
+  pages     = {34961--34988},
+  year      = {2025},
+  url       = {https://proceedings.iclr.cc/paper_files/paper/2025/hash/565f995643da6329cec701f26f8579f5-Abstract-Conference.html}
+}
+```
